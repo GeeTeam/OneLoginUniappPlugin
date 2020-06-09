@@ -1,0 +1,47 @@
+{
+	"name": "GTOneLoginSDKModule",
+	"id": "GTOneLoginSDKModule",
+	"version": "2.1.4",
+	"description": "极验OneLoginSDKHbuilder插件",
+	"_dp_type": "nativeplugin",
+	"_dp_nativeplugin": {
+		"ios": {
+			"plugins": [{
+				"type": "module",
+				"name": "GTOneLoginSDKModule",
+				"class": "GTOneLoginSDKModule"
+			}],
+			"integrateType": "framework",
+			"hooksClass": "",
+			"frameworks": [
+				"libc++.1",
+				"libz.1.2.8"
+			],
+			"resources": [
+				"OneLoginResource.bundle"
+			],
+			"deploymentTarget": "8.0"
+		},
+		"android": {
+			"plugins": [{
+				"type": "module",
+				"name": "GTOneLoginSDKModule",
+				"class": "com.geetest.onelogin.OneLoginManager"
+			}],
+			"hooksClass": "",
+			"integrateType": "aar",
+			"minSdkVersion": "16",
+			"permissions": [
+				"android.permission.INTERNET",
+				"android.permission.ACCESS_WIFI_STATE",
+				"android.permission.CHANGE_NETWORK_STATE",
+				"android.permission.READ_PHONE_STATE",
+				"android.permission.WRITE_EXTERNAL_STORAGE",
+				"android.permission.READ_EXTERNAL_STORAGE",
+				"android.permission.ACCESS_NETWORK_STATE",
+				"android.permission.WRITE_SETTINGS",
+				"android.permission.GET_TASKS"
+			]
+		}
+	}
+}
