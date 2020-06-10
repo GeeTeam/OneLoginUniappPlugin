@@ -55,9 +55,9 @@
             }
         },
         "nativePlugins" : {
-            "GTOneLoginSDKModule" : {
+            "Geetest-GTOneLoginSDKModule" : {
                 "__plugin_info__" : {
-                    "name" : "GTOneLoginSDKModule",
+                    "name" : "Geetest-GTOneLoginSDKModule",
                     "description" : "极验OneLoginSDKHbuilder插件",
                     "platforms" : "Android,iOS",
                     "url" : "",
