@@ -29,7 +29,7 @@
 </template>
 
 <script>
-	var gtSDKModule = uni.requireNativePlugin("GTOneLoginSDKModule"); 
+	var gtSDKModule = uni.requireNativePlugin("Geetest-GTOneLoginSDKModule"); 
 	
 	export default {
 		data() {

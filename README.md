@@ -7,7 +7,7 @@
 # 引用方式
 
 ```js
-var gtSDKModule = uni.requireNativePlugin("GTOneLoginSDKModule");
+var gtSDKModule = uni.requireNativePlugin("Geetest-GTOneLoginSDKModule");
 ```
 
 # Android

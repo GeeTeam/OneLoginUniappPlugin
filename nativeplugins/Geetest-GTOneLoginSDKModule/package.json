@@ -1,6 +1,6 @@
 {
-	"name": "GTOneLoginSDKModule",
-	"id": "GTOneLoginSDKModule",
+	"name": "Geetest-GTOneLoginSDKModule",
+	"id": "Geetest-GTOneLoginSDKModule",
 	"version": "2.1.4",
 	"description": "极验OneLoginSDKHbuilder插件",
 	"_dp_type": "nativeplugin",
@@ -8,7 +8,7 @@
 		"ios": {
 			"plugins": [{
 				"type": "module",
-				"name": "GTOneLoginSDKModule",
+				"name": "Geetest-GTOneLoginSDKModule",
 				"class": "GTOneLoginSDKModule"
 			}],
 			"integrateType": "framework",
@@ -25,7 +25,7 @@
 		"android": {
 			"plugins": [{
 				"type": "module",
-				"name": "GTOneLoginSDKModule",
+				"name": "Geetest-GTOneLoginSDKModule",
 				"class": "com.geetest.onelogin.OneLoginManager"
 			}],
 			"hooksClass": "",
