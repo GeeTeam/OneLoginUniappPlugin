@@ -14,8 +14,7 @@
 			"integrateType": "framework",
 			"hooksClass": "",
 			"frameworks": [
-				"libc++.1",
-				"libz.1.2.8"
+				"libc++.1"
 			],
 			"resources": [
 				"OneLoginResource.bundle"
