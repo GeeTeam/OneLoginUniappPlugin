@@ -1,0 +1,80 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'onelogin-proguard-rules.pro'
+
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+            //混淆
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            //混淆
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions{
+        doNotStrip "*/armeabi/*.so"
+        doNotStrip "*/armeabi-v7a/*.so"
+        doNotStrip "*/x86/*.so"
+        doNotStrip "*/arm64-v8a/*.so"
+        doNotStrip "*/x86_64/*.so"
+    }
+    android.libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFileName
+            if (outputFile != null && outputFile.endsWith('.aar')) {
+                // 显示app名称+当前版本号
+
+                def fileName = "geetest_oneloginuni_android_v${defaultConfig.versionName}"
+                // 加入打包时间
+                fileName = fileName + "_${releaseTime()}"
+                // 如果是debug版本，加入beta版本号
+                if ('debug'.equals(variant.buildType.name)) {
+                    fileName = fileName + "_debug.aar"
+                } else {
+                    // 如果是release版本，直接显示
+                    fileName = fileName + ".aar"
+                }
+                output.outputFileName = fileName
+            }
+        }
+    }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+// 显示的时间格式，形如20171110
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getDefault())
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.alibaba:fastjson:1.1.46.android'
+    implementation 'com.facebook.fresco:fresco:0.12.0'
+
+    implementation 'com.geetest.android:onelogin:2.1.4.1'
+    compileOnly fileTree(include: ['uniapp-release.aar'], dir: '../app/libs')
+}
