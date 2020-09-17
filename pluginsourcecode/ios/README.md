@@ -1,2 +1,0 @@
-# OneLogin-Uniapp-Plugin-iOS
-
