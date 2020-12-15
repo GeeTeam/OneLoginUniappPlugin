@@ -419,7 +419,7 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         
         // *************** appLogo *************** //
         if (viewModelDict[@"appLogo"]) {
-            viewModel.appLogo = [UIImage imageNamed:[NSString stringWithFormat:@"%@", viewModelDict[@"appLogo"]]];
+            viewModel.appLogo = [self imageWithName:[NSString stringWithFormat:@"%@", viewModelDict[@"appLogo"]]];
         }
         
         if (viewModelDict[@"logoRect"]) {
@@ -767,7 +767,11 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         }
     }
     
-    [OneLoginPro requestTokenWithViewController:[self findCurrentShowingViewController] viewModel:viewModel completion:^(NSDictionary * _Nullable result) {
+    UIViewController *controller = [self findCurrentShowingViewController];
+    if (controller.navigationController) {
+        controller = controller.navigationController;
+    }
+    [OneLoginPro requestTokenWithViewController:controller viewModel:viewModel completion:^(NSDictionary * _Nullable result) {
         if (callback) {
             callback(result, NO);
         }
