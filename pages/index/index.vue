@@ -301,7 +301,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/weixin.png"
+							backgroundImgPath: "static/weixin.png"
 						},
 						widget5: {
 							viewId: "qq_login",
@@ -312,7 +312,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/qq.png"
+							backgroundImgPath: "static/qq.png"
 						},
 						widget6: {
 							viewId: "weibo_login",
@@ -323,7 +323,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/weibo.png"
+							backgroundImgPath: "static/weibo.png"
 						}
 					},
 					
@@ -572,7 +572,7 @@
 				if (platform == 'android') {
 					/*************************Android*************************/
 					//极验SDK拉起授权页方法
-					themeConfig = {
+					let themeConfig = {
 						isDialogTheme:true, dialogWidth:300, dialogHeight:500, dialogX:0, dialogY:0, isDialogBottom:false, isWebViewDialogTheme:true,
 						returnImgPath:'gt_one_login_ic_chevron_left_black', returnImgWidth:40, returnImgHeight:40, returnImgHidden:false, returnImgOffsetX:8,
 						logoImgPath:'gt_one_login_logo', logoWidth:71, logoHeight:71, logoHidden:false, logoOffsetY:60, logoOffsetY_B:0, logoOffsetX:0,
