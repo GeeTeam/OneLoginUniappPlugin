@@ -301,7 +301,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "static/weixin.png"
+							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/weixin.png"
 						},
 						widget5: {
 							viewId: "qq_login",
@@ -312,7 +312,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "static/qq.png"
+							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/qq.png"
 						},
 						widget6: {
 							viewId: "weibo_login",
@@ -323,7 +323,7 @@
 							bottom: "",
 							width: "35",
 							height: "35",
-							backgroundImgPath: "static/weibo.png"
+							backgroundImgPath: "Pandora/apps/__UNI__0D3E2E0/www/static/weibo.png"
 						}
 					},
 					
@@ -419,11 +419,11 @@
 						naviTitleColor: '#1F90FF',
 						naviTitleFont: 20,
 						naviBgColor: '#FFFFFF',
-						naviBackImage: 'static/close_black.png',
+						naviBackImage: 'Pandora/apps/__UNI__0D3E2E0/www/static/close_black.png',
 						naviHidden: false,
 						backButtonRect: [0, 0, 0, 0, 0, 0, 20, 20],
 						backButtonHidden: false,
-						appLogo: 'static/logo_icon.png',
+						appLogo: 'Pandora/apps/__UNI__0D3E2E0/www/static/logo_icon.png',
 						logoRect: [],
 						logoHidden: false,
 						logoCornerRadius: 5,
@@ -457,7 +457,7 @@
 						auxiliaryPrivacyWords: ['登录表示同意', '与', '&', '并使用本机号码登录'],
 						termsAlignment: 0,
 						backgroundColor: '#00000000',
-						backgroundImage: 'static/background.png',
+						backgroundImage: 'Pandora/apps/__UNI__0D3E2E0/www/static/background.png',
 						landscapeBackgroundImage: '',
 						isPopup: false,
 						popupRect: [],
@@ -474,13 +474,13 @@
 						webNaviBgColor: '#0F0F00',
 						notCheckProtocolHint: '请先阅读服务条款',
 						modalPresentationStyle: 0,
-						pullAuthVCStyle: 1,
+						pullAuthVCStyle: 0,
 						userInterfaceStyle: 0,
 						widgets: [{
 							type: "UIButton", 
 							UIButtonType: 0, 
 							image: '',
-							backgroundImage: "static/button_bg.png",
+							backgroundImage: "Pandora/apps/__UNI__0D3E2E0/www/static/button_bg.png",
 							title: '自定义按钮',	
 							titleColor: '#FFFFFF',
 							titleFont: 12,
@@ -503,7 +503,7 @@
 							type: "UIImageView",
 							backgroundColor: '#48A75B',
 							cornerRadius: 5,
-							image: "static/logo.png",
+							image: "Pandora/apps/__UNI__0D3E2E0/www/static/logo.png",
 							frame: [10, 180, 40, 40]
 						}, {
 							type: "UILabel",
@@ -515,13 +515,13 @@
 						}, {
 							type: "UIButton", 
 							UIButtonType: 0, 
-							image: 'static/qq_icon.png',
+							image: 'Pandora/apps/__UNI__0D3E2E0/www/static/qq_icon.png',
 							action: 'qqLogin',
 							frame: [screenWidth/2 - 45 - 10, screenHeight - 200, 45, 45]
 						}, {
 							type: "UIButton", 
 							UIButtonType: 0, 
-							image: 'static/weixin_icon.png',
+							image: 'Pandora/apps/__UNI__0D3E2E0/www/static/weixin_icon.png',
 							action: 'weixinLogin',
 							frame: [screenWidth/2 + 10, screenHeight - 200, 45, 45]
 						}],
@@ -572,7 +572,7 @@
 				if (platform == 'android') {
 					/*************************Android*************************/
 					//极验SDK拉起授权页方法
-					let themeConfig = {
+					themeConfig = {
 						isDialogTheme:true, dialogWidth:300, dialogHeight:500, dialogX:0, dialogY:0, isDialogBottom:false, isWebViewDialogTheme:true,
 						returnImgPath:'gt_one_login_ic_chevron_left_black', returnImgWidth:40, returnImgHeight:40, returnImgHidden:false, returnImgOffsetX:8,
 						logoImgPath:'gt_one_login_logo', logoWidth:71, logoHeight:71, logoHidden:false, logoOffsetY:60, logoOffsetY_B:0, logoOffsetX:0,
