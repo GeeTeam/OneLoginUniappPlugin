@@ -1,7 +1,7 @@
 {
 	"name": "Geetest-GTOneLoginSDKModule",
 	"id": "Geetest-GTOneLoginSDKModule",
-	"version": "2.1.4",
+	"version": "2.3.5",
 	"description": "极验OneLoginSDKHbuilder插件",
 	"_dp_type": "nativeplugin",
 	"_dp_nativeplugin": {
