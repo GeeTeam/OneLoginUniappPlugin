@@ -46,6 +46,7 @@ static NSString * const OLSDKKey               = @"sdk";
 static NSString * const OLOpsaltKey            = @"opsalt";
 static NSString * const OLTimestampKey         = @"timestamp";
 static NSString * const OLSignKey              = @"sign";
+static NSString * const OLAlgorithmTypeKey     = @"alg";
 static NSString * const OLPreTokenTypeKey      = @"pre_token_type";
 static NSString * const OLApp_id               = @"app_id";
 static NSString * const OLCodeKey              = @"code";
@@ -61,6 +62,11 @@ static NSString * const OLSecurityPhone        = @"securityPhone";
 static NSString * const OLErrorMsgKey          = @"error_msg";
 static NSString * const OLOperatorErrorCodeKey = @"operator_error_code";
 static NSString * const OLNIKey                = @"n_i";
+static NSString * const OLMobileBridgeTokenKey = @"mobile_bridge_token";
+static NSString * const OLCipherSaveKey        = @"com.geetest.onelogin.cipher";
+
+static NSString * const OLCaptchaIDKey         = @"captcha_id";
+static NSString * const OLCaptchaStatusKey     = @"captcha_status";
 
 static NSString * const OLGWAuthKey            = @"gwAuth";
 static NSString * const OLAuthcodeKey          = @"authcode";
@@ -68,18 +74,20 @@ static NSString * const OLAuthcodeKey          = @"authcode";
 static NSString * const OLExpireTimeKey        = @"expire_time";
 static NSString * const OLPreGetTokenSuccessedTimeKey = @"preGetTokenSuccessedTime";
 
-static NSString * const OLSDKVersion           = @"2.3.1.3";
+static NSString * const OLZidKey               = @"com.geetest.zid";
+
+static NSString * const OLSDKVersion           = @"2.7.4";
 
 static NSString * const OLFirstRegister        = @"f_r_o";
 
 static NSString * const OLCM                   = @"CM";     // 移动
 static NSString * const OLCU                   = @"CU";     // 联通
 static NSString * const OLCT                   = @"CT";     // 电信
-static NSString * const OLCUCC                 = @"CUCC";   // 联通在线
 
 static NSString * const OLServerConfig         = @"server_config";
 static NSString * const OLCarrierID            = @"get_token_id";
 static NSString * const OLCarrierKey           = @"get_token_key";
+static NSString * const OLCMSSCustid           = @"get_token_custid";
 
 static NSString * const OLCMTermTitle          = @"中国移动认证服务条款";
 static NSString * const OLCMTermLink           = @"http://wap.cmpassport.com/resources/html/contract.html";
@@ -98,16 +106,11 @@ static NSString * const OLRightQuotationMark   = @"》";
 
 static NSString * const OLTokenSeperator = @"__";
 
-static NSTimeInterval const OLDefaultTimeout   = 5;
+static NSTimeInterval const OLDefaultTimeout   = 8.0;
 
 static NSTimeInterval const OLMinTimeInterval  = 0.7;
 
 static NSInteger const OLMaxKeyWindowNilRetryTime = 2;
-
-// MARK: Deepknow
-
-static NSString * const OLDeepKnowSessionKey   = @"deepknow_session_id";
-static NSString * const OLDeepKnowAppId        = @"ca2a4725af052672f25faf64b181bb5b";
 
 // MARK: Config
 
@@ -119,7 +122,9 @@ static NSString * const OLPrivatizationKey     = @"Privatization";
 static NSString * const OnePassURLPrefix       = @"https://onepass.geetest.com/v2.0/";
 static NSString * const OnePassURLClientReport = @"clientreport";
 static NSString * const OnePassURLPreGetway    = @"pre_gateway";
-static NSString * const OnePassURLDeepknow     = @"deepknown";
+static NSString * const OnePassURLPreReport    = @"pre_report";
+
+static NSString * const OPCipherSaveKey        = @"com.geetest.onepass.cipher";
 
 static NSString * const OPErrorData            = @"error_data";
 static NSString * const OPErrorFailingURL      = @"GOPFailingURL";

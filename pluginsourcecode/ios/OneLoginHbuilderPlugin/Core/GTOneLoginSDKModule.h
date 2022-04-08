@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WeexSDK.h"
+
+#import "DCUniModule.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GTOneLoginSDKModule : NSObject <WXModuleProtocol>
+@interface GTOneLoginSDKModule : DCUniModule
 
 @end
 

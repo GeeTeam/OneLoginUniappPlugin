@@ -16,6 +16,10 @@ typedef NS_ENUM(NSInteger, GOPPhoneNumEncryptOption) {
     GOPPhoneNumEncryptOptionSha256      // sha256
 };
 
+typedef NS_ENUM(NSInteger, GOPAlgorithmOption) {
+    GOPAlgorithmOptionAES2RSA = 0,   // AES+RSA
+    GOPAlgorithmOptionSM42SM2 = 1    // SM4+SM2
+};
 @protocol GOPManagerDelegate;
 
 typedef void(^GOPCompletion)(NSDictionary *dict);
@@ -92,6 +96,36 @@ typedef void(^GOPFailure)(NSError *error);
  * @return YES，允许打印日志 NO，禁止打印日志
  */
 + (BOOL)isLogEnabled;
+
++ (void)setAsyncSocketEnabled:(BOOL)enabled;
+
+/**
+ * @abstract 设置是否允许缓存手机号，若允许缓存，则将校验过的手机号加密之后缓存到沙盒，缓存中仅存最近一次校验过的手机号，默认允许缓存
+ *
+ * @param enabled YES，允许缓存 NO，禁止并清空缓存
+ */
++ (void)setCachePhoneEnabled:(BOOL)enabled;
+
+/**
+ * @abstract 设置是否私有化测试
+ *
+ * @param privatization YES，私有化设置  NO，非私有化设置
+ */
++ (void)setPrivatization:(const bool)privatization;
+
+/**
+ @abstract 获取缓存的手机号
+ 
+ @return 手机号
+ */
++ (NSString * _Nullable)getCachedPhone;
++ (void)getCachedPhoneWithCompletionHandler:(void(^)(NSString *phone))completionHandler;
++ (void)getCachedPhonesWithCompletionHandler:(void(^)(NSMutableArray<NSString *> *phones))completionHandler;
+
+/// 仅私有化支持
+/// @param option 加密方式
++ (void)setAlgorithmOption:(GOPAlgorithmOption)option;
+
 
 @end
 

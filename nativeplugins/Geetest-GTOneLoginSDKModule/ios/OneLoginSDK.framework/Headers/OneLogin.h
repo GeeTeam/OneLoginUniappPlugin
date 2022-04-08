@@ -53,11 +53,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setDelegate:(nullable id<OneLoginDelegate>)delegate;
 
 /**
- 设置请求超时时长。默认时长5s。
+ 设置请求超时时长。默认时长8s。
 
  @param timeout 超时时长
  */
 + (void)setRequestTimeout:(NSTimeInterval)timeout;
+
+/**
+ 分别设置预取号和取号请求超时时长。默认时长8s。
+
+ @param preGetTokenTimeout 预取号超时时长
+ @param requestTokenTimeout 取号超时时长
+ */
++ (void)setRequestTimeout:(NSTimeInterval)preGetTokenTimeout requestTokenTimeout:(NSTimeInterval)requestTokenTimeout;
 
 /**
  预取号接口
@@ -101,8 +109,8 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion 预取号成功后存在的有效期
  
  有效期内需要调用 `requestTokenWithViewController:viewModel:completion:`,
- 否则需要重新访问 `preGetTokenWithCompletion:`。 其中中国移动有效期为 1 小时,
- 中国联通和中国电信为 10 分钟。
+ 否则需要重新访问 `preGetTokenWithCompletion:`。 其中中国移动和中国电信有效期为 1 小时,
+ 中国联通为 10 分钟。
 
  @param completion 处理回调
  */
@@ -167,17 +175,9 @@ NS_ASSUME_NONNULL_BEGIN
  @seealso OLAuthViewModel
  
  */
-+ (void)requestTokenWithViewController:(nullable UIViewController *)viewController
++ (void)requestTokenWithViewController:(UIViewController *)viewController
                              viewModel:(nullable OLAuthViewModel *)viewModel
                             completion:(void(^)(NSDictionary * _Nullable result))completion;
-
-/**
- 进行用户认证授权, 获取网关 token 。
- 
- @param completion 结果处理回调
- 
- */
-+ (void)requestTokenWithCompletion:(void(^)(NSDictionary * _Nullable result))completion;
 
 /**
  @abstract 关闭当前的授权页面
@@ -210,6 +210,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 服务条款左边复选框是否勾选
  */
 + (BOOL)isProtocolCheckboxChecked;
+
+
+/**
+  @abstract 设置服务条款左边复选框勾选状态
+  @param isChecked 是否勾选
+ */
++ (void)setProtocolCheckState:(BOOL)isChecked;
 
 /**
  * @abstract 预取号拿到的token是否还在有效期
@@ -273,6 +280,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)startRequestToken;
 
 + (void)setOperatorParams:(NSDictionary *)params;
+
+
+/// 仅私有化支持
+/// @param option 加密方式
++ (void)setAlgorithmOption:(OLAlgorithmOption)option;
 
 @end
 

@@ -43,11 +43,19 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)hasRegistered;
 
 /**
- 设置请求超时时长。默认时长5s。
+ 设置请求超时时长。默认时长8s。
 
  @param timeout 超时时长
  */
 + (void)setRequestTimeout:(NSTimeInterval)timeout;
+
+/**
+ 分别设置预取号和取号请求超时时长。默认时长8s。
+
+ @param preGetTokenTimeout 预取号超时时长
+ @param requestTokenTimeout 取号超时时长
+ */
++ (void)setRequestTimeout:(NSTimeInterval)preGetTokenTimeout requestTokenTimeout:(NSTimeInterval)requestTokenTimeout;
 
 /**
  进行用户认证授权, 获取网关 token 。
@@ -65,18 +73,49 @@ NS_ASSUME_NONNULL_BEGIN
  
  @seealso OLAuthViewModel
  
+ @discussion completion 的 result 数据如下：
+ 
+ 获取成功：
+ {
+   "model" : "iPhone9,1",
+   "authcode" : "0000",
+   "operatorType" : "CU",
+   "release" : "13.5.1",
+   "processID" : "967ceb230b3fdfb4d74ebcb470c5830c",
+   "appID" : "e4fcb3086ca25bbe2da08a09d75c70e8",
+   "pre_token_time" : "1012",
+   "token" : "CU__0__e4fcb3086ca25bbe2da08a09d75c70e8__2.3.8.2__1__f632d01ab7c64efda96580c3274de971__NOTCUCC",
+   "number" : "186****6173",
+   "preGetTokenSuccessedTime" : 1604890895.807291,
+   "errorCode" : "0",
+   "msg" : "获取accessCode成功",
+   "status" : 200,
+   "expire_time" : 580
+ }
+ 
+ 获取失败：
+ {
+   "status" : 500,
+   "operatorType" : "CU",
+   "appID" : "e4fcb3086ca25bbe2da08a09d75c70e8",
+   "model" : "iPhone9,1",
+   "release" : "13.5.1",
+   "msg" : "Can't access cellular.",
+   "errorCode" : "-20202"
+ }
+ 
+ status - 200 表示获取预取号结果成功，500 表示获取预取号结果失败
+ token - 换取手机号需要的 token
+ processID - 流水号
+ appID - appId
+ authcode - authcode
+ operatorType - 运营商
+ errorCode - 获取失败时的错误码
+ msg - 获取失败时表示失败原因
  */
-+ (void)requestTokenWithViewController:(nullable UIViewController *)viewController
++ (void)requestTokenWithViewController:(UIViewController *)viewController
                              viewModel:(nullable OLAuthViewModel *)viewModel
                             completion:(void(^)(NSDictionary * _Nullable result))completion;
-
-/**
- 进行用户认证授权, 获取网关 token 。
- 
- @param completion 结果处理回调
- 
- */
-+ (void)requestTokenWithCompletion:(void(^)(NSDictionary * _Nullable result))completion;
 
 /**
  * @abstract 重新预取号
@@ -89,6 +128,40 @@ NS_ASSUME_NONNULL_BEGIN
 * @abstract 获取预取号结果
 *
 * @param completion 预取号结果
+*
+* @discussion completion 的 result 数据如下：
+ 获取成功：
+ {
+   "model" : "iPhone9,1",
+   "accessCode" : "d3f3c605a2684a8fbb4b43ee0f94f1ff",
+   "operatorType" : "CU",
+   "release" : "13.5.1",
+   "processID" : "1f1437fd0b3026ff44500c3d03cdd822",
+   "appID" : "e4fcb3086ca25bbe2da08a09d75c70e8",
+   "pre_token_time" : "1087",
+   "number" : "186****6173",
+   "preGetTokenSuccessedTime" : 1604890389.0020308,
+   "msg" : "获取accessCode成功",
+   "status" : 200,
+   "expire_time" : 580
+ }
+ 
+ 获取失败：
+ {
+   "status" : 500,
+   "operatorType" : "CU",
+   "appID" : "e4fcb3086ca25bbe2da08a09d75c70e8",
+   "model" : "iPhone9,1",
+   "release" : "13.5.1",
+   "msg" : "Can't access cellular.",
+   "errorCode" : "-20202"
+ }
+ 
+ status - 200 表示获取预取号结果成功，500 表示获取预取号结果失败
+ number - 脱敏手机号
+ operatorType - 运营商
+ errorCode - 获取失败时的错误码
+ msg - 获取失败时表示失败原因
 */
 + (void)getPreGetTokenResult:(void(^)(NSDictionary * _Nullable result))completion;
 
@@ -130,6 +203,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @abstract 服务条款左边复选框是否勾选
  */
 + (BOOL)isProtocolCheckboxChecked;
+
+/**
+  @abstract 设置服务条款左边复选框勾选状态
+  @param isChecked 是否勾选
+ */
++ (void)setProtocolCheckState:(BOOL)isChecked;
 
 /**
  * @abstract 获取当前授权页面对应的配置
@@ -192,6 +271,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)startRequestToken;
 
 + (void)setOperatorParams:(NSDictionary *)params;
+
+/// 仅私有化支持
+/// @param option 加密方式
++ (void)setAlgorithmOption:(OLAlgorithmOption)option;
 
 @end
 
