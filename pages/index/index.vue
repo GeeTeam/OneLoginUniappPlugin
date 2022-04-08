@@ -30,6 +30,7 @@
 
 <script>
 	var gtSDKModule = uni.requireNativePlugin("Geetest-GTOneLoginSDKModule"); 
+	var globalEvent = uni.requireNativePlugin('globalEvent');
 	
 	export default {
 		data() {
@@ -40,7 +41,67 @@
 			}
 		},
 		onLoad() {
-
+			globalEvent.addEventListener('customButtonAction',function(e) {
+				console.log("=========== custom button pressed =========== ");
+			});
+			globalEvent.addEventListener('qqLogin',function(e) {
+				console.log("=========== qqLogin =========== ");
+				gtSDKModule.dismissAuthViewController();
+				uni.showToast({
+					icon: "none",
+					title: "qq登录",
+					duration: 2000 ,
+				});
+			});
+			globalEvent.addEventListener('weixinLogin',function(e) {
+				console.log("=========== weixinLogin =========== ");
+				gtSDKModule.dismissAuthViewController();
+				uni.showToast({
+					icon: "none",
+					title: "微信登录",
+					duration: 2000
+				});
+			});
+			globalEvent.addEventListener('authVCTransitionBlock',function(e) {
+				console.log("=========== authVCTransitionBlock =========== ");
+			});
+			globalEvent.addEventListener('tapAuthBackgroundBlock',function(e) {
+				console.log("=========== tapAuthBackgroundBlock =========== ");
+			});
+			globalEvent.addEventListener('viewLifeCycleBlock',function(e) {
+				let jsonString = JSON.stringify(e);
+				let obj = JSON.parse(jsonString); 
+				let viewLifeCycle = obj['GTOLKey'];
+				let viewLifeCycleArr = viewLifeCycle.split(',');
+				console.log("=========== viewLifeCycle: " + viewLifeCycleArr);
+				if (viewLifeCycleArr[0] == 'viewDidLoad') {
+					uni.hideLoading();
+				}
+			});
+			globalEvent.addEventListener('clickBackButtonBlock',function(e) {
+				console.log("=========== clickBackButtonBlock =========== ");
+			});
+			
+			globalEvent.addEventListener('clickSwitchButtonBlock', function(e) {
+			console.log("=========== clickSwitchButtonBlock =========== ");
+			});
+			globalEvent.addEventListener('clickCheckboxBlock', function(e) {
+				let jsonString = JSON.stringify(e);
+				let obj = JSON.parse(jsonString); 
+				let isChecked = obj['GTOLKey'];
+				console.log("=========== clickCheckboxBlock =========== "+ isChecked);
+				if (isChecked == 'true') {
+					console.log("=========== checkbox is checked =========== ");
+				} else if (isChecked == 'false') {
+					console.log("=========== checkbox is unchecked =========== ");
+				}
+			});
+			globalEvent.addEventListener('clickAuthButtonBlock', function(e) {
+			console.log("=========== clickAuthButtonBlock =========== ");
+			});
+			globalEvent.addEventListener('hintBlock', function(e) {
+			console.log("=========== hintBlock =========== ");
+			});
 		},
 		mounted() {
 			Vue.prototype.$customButtonAction = this.customButtonAction;
@@ -476,6 +537,8 @@
 						modalPresentationStyle: 0,
 						pullAuthVCStyle: 0,
 						userInterfaceStyle: 0,
+						languageType: 1,
+						shakeStyle: 1,
 						widgets: [{
 							type: "UIButton", 
 							UIButtonType: 0, 
@@ -530,7 +593,9 @@
 						viewLifeCycleBlock: 'viewLifeCycleBlock',
 						clickBackButtonBlock: 'clickBackButtonBlock',
 						clickSwitchButtonBlock: 'clickSwitchButtonBlock',
-						clickCheckboxBlock: 'clickCheckboxBlock'
+						clickCheckboxBlock: 'clickCheckboxBlock',
+						clickAuthButtonBlock: 'clickAuthButtonBlock',
+						hintBlock: 'hintBlock'
 					}
 					
 					//一键登录

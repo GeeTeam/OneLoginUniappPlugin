@@ -14,10 +14,9 @@
 			"integrateType": "framework",
 			"hooksClass": "",
 			"frameworks": [
-				"libc++.1"
-			],
-			"resources": [
-				"OneLoginResource.bundle"
+				"libc++.1.tbd",
+				"libz.1.2.8.tbd",
+				"Network.framework"
 			],
 			"deploymentTarget": "9.0"
 		},

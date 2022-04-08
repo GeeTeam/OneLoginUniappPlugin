@@ -7,13 +7,8 @@
 //
 
 #import "GTOneLoginSDKModule.h"
-#import "YYModel.h"
 #import <OneLoginSDK/OneLoginSDK.h>
-#import "PDRCoreApp.h"
-#import "PDRCore.h"
-#import "PDRCoreAppManager.h"
-#import "H5UniversalApp.h"
-
+#import "WeexSDK.h"
 @interface GTButton : UIButton
 
 @property (nonatomic, copy) NSString *buttonAction;
@@ -123,14 +118,18 @@
 // MARK: Image
 
 - (UIImage * _Nullable)imageWithName:(NSString *)name {
+    NSLog(@"$$$$$$$$$$$ imageWithName: %@ $$$$$$$$$$$", name);
     if ([name isKindOfClass:[NSString class]] && name.length > 0) {
         NSArray *array = [name componentsSeparatedByString:@"."];
         if (2 == array.count) {
-            NSString *imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Pandora/apps/__UNI__0D3E2E0/www/%@", array[0]] ofType:array[1]];
+            NSString *imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", array[0]] ofType:array[1]];
             NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
-            return [UIImage imageWithData:imageData];
+            UIImage *image = [UIImage imageWithData:imageData];
+            if (nil == image) {
+                image = [UIImage imageNamed:name];
+            }
+            return image;
         }
-        
     }
     
     return nil;
@@ -144,28 +143,11 @@
 
 // MARK: JS
 
-- (void)invokeJSMethod:(NSString *)js params:(NSString *)params, ... {
-    PDRCoreApp *pdrCoreApp = (PDRCoreApp *)[[[PDRCore Instance] appManager] activeApp];
-    PDRCoreAppFrame *pMainFrame = [pdrCoreApp valueForKey:@"_weexWebview"];
-
-    if (pMainFrame) {
-        NSMutableString *jsStr = [NSMutableString string];
-        if (params) {
-            va_list arg_list;
-            [jsStr appendFormat:@"Vue.prototype.$%@('%@',", js, params];
-            va_start(arg_list, params);
-            NSString *tempArg = va_arg(arg_list, NSString *);
-            while (tempArg) {
-                [jsStr appendFormat:@"'%@',", tempArg];
-                tempArg = va_arg(arg_list, NSString *);
-            }
-            va_end(arg_list);
-            [jsStr deleteCharactersInRange:NSMakeRange(jsStr.length - 1, 1)];
-            [jsStr appendString:@")"];
-        } else {
-            [jsStr appendFormat:@"Vue.prototype.$%@()", js];
-        }
-        [pMainFrame stringByEvaluatingJavaScriptFromString:jsStr];
+- (void)invokeJSMethod:(NSString *)js params:(NSString *)params {
+    
+    DCUniSDKInstance * instance = self.uniInstance;
+    if (instance) {
+        [instance fireGlobalEvent:js params:@{@"GTOLKey":params ?: @""}];
     }
 }
 
@@ -369,6 +351,30 @@ WX_EXPORT_METHOD_SYNC(@selector(setRequestTimeout:))
     [OneLoginPro setRequestTimeout:timeout];
 }
 
+WX_EXPORT_METHOD_SYNC(@selector(setRequestTimeout:requestTokenTimeout:))
+
+- (void)setRequestTimeout:(NSTimeInterval)preGetTokenTimeout requestTokenTimeout:(NSTimeInterval)requestTokenTimeout {
+    [OneLoginPro setRequestTimeout:preGetTokenTimeout requestTokenTimeout:requestTokenTimeout];
+}
+
+WX_EXPORT_METHOD_SYNC(@selector(isPreGetTokenResultValidate))
+
+- (BOOL)isPreGetTokenResultValidate {
+    return [OneLoginPro isPreGetTokenResultValidate];
+}
+
+WX_EXPORT_METHOD_SYNC(@selector(isProtocolCheckboxChecked))
+
+- (BOOL)isProtocolCheckboxChecked {
+    return [OneLoginPro isProtocolCheckboxChecked];
+}
+
+WX_EXPORT_METHOD_SYNC(@selector(setProtocolCheckState:))
+
+- (void)setProtocolCheckState:(BOOL)isChecked {
+    [OneLoginPro setProtocolCheckState:isChecked];
+}
+
 WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
 
 - (void)requestTokenWithViewModel:(NSDictionary *)viewModelDict
@@ -378,6 +384,14 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         // *************** statusBarStyle *************** //
         if (viewModelDict[@"statusBarStyle"]) {
             viewModel.statusBarStyle = [viewModelDict[@"statusBarStyle"] integerValue];
+        }
+        
+        // *************** navTextPadding *************** //
+        if (viewModelDict[@"navTextPadding"]) {
+            double navTextPadding = [viewModelDict[@"navTextPadding"] doubleValue];
+            if (navTextPadding && navTextPadding > 0) {
+                viewModel.navTextPadding = navTextPadding;
+            }
         }
         
         // *************** naviTitle *************** //
@@ -530,6 +544,10 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
             }
         }
         
+        if (viewModelDict[@"sloganText"]) {
+            viewModel.sloganText = viewModelDict[@"sloganText"];
+        }
+        
         if (viewModelDict[@"sloganTextColor"]) {
             viewModel.sloganTextColor = [self colorFromHexString:viewModelDict[@"sloganTextColor"]];
         }
@@ -619,6 +637,26 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
             viewModel.termsAlignment = [viewModelDict[@"termsAlignment"] integerValue];
         }
         
+        if (viewModelDict[@"hasQuotationMarkOnCarrierProtocol"]) {
+            viewModel.hasQuotationMarkOnCarrierProtocol = [viewModelDict[@"hasQuotationMarkOnCarrierProtocol"] boolValue];
+        }
+        
+        if (viewModelDict[@"disableAuthButtonWhenUnchecked"]) {
+            viewModel.disableAuthButtonWhenUnchecked = [viewModelDict[@"disableAuthButtonWhenUnchecked"] boolValue];
+        }
+        
+        if (viewModelDict[@"shakeStyle"]) {
+            viewModel.shakeStyle = [viewModelDict[@"shakeStyle"] integerValue];
+        }
+        if (viewModelDict[@"spaceBetweenCheckboxAndTermsText"]) {
+            viewModel.spaceBetweenCheckboxAndTermsText = [viewModelDict[@"spaceBetweenCheckboxAndTermsText"] doubleValue];
+        }
+        
+        // *************** languageType *************** //
+        if (viewModelDict[@"languageType"]) {
+            viewModel.languageType = [viewModelDict[@"languageType"] integerValue];
+        }
+        
         // *************** Background *************** //
         if (viewModelDict[@"backgroundColor"]) {
             viewModel.backgroundColor = [self colorFromHexString:viewModelDict[@"backgroundColor"]];
@@ -630,6 +668,19 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         
         if (viewModelDict[@"landscapeBackgroundImage"]) {
             viewModel.landscapeBackgroundImage = [self imageWithName:viewModelDict[@"landscapeBackgroundImage"]];
+        }
+        
+        if (viewModelDict[@"backgroundGifPath"]) {
+            viewModel.backgroundGifPath = viewModelDict[@"backgroundGifPath"];
+        }
+        
+        if (viewModelDict[@"backgroundVideoPath"]) {
+            viewModel.backgroundVideoPath = viewModelDict[@"backgroundVideoPath"];
+        }
+        
+        // *************** Orientation *************** //
+        if (viewModelDict[@"supportedInterfaceOrientations"]) {
+            viewModel.supportedInterfaceOrientations = [viewModelDict[@"supportedInterfaceOrientations"] integerValue];
         }
         
         // *************** Popup *************** //
@@ -693,6 +744,10 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
             viewModel.webNaviBgColor = [self colorFromHexString:viewModelDict[@"webNaviBgColor"]];
         }
         
+        if (viewModelDict[@"webNaviHidden"]) {
+            viewModel.webNaviHidden = [viewModelDict[@"webNaviHidden"] boolValue];
+        }
+        
         // *************** Hint *************** //
         if (viewModelDict[@"notCheckProtocolHint"]) {
             viewModel.notCheckProtocolHint = viewModelDict[@"notCheckProtocolHint"];
@@ -744,7 +799,7 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         
         if (viewModelDict[@"viewLifeCycleBlock"]) {
             viewModel.viewLifeCycleBlock = ^(NSString * _Nonnull viewLifeCycle, BOOL animated) {
-                [wself invokeJSMethod:viewModelDict[@"viewLifeCycleBlock"] params:viewLifeCycle, (animated ? @"true" : @"false"), nil];
+                [wself invokeJSMethod:viewModelDict[@"viewLifeCycleBlock"] params:[NSString stringWithFormat:@"%@,%@",viewLifeCycle,(animated ? @"true" : @"false")]];
             };
         }
         
@@ -762,9 +817,23 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         
         if (viewModelDict[@"clickCheckboxBlock"]) {
             viewModel.clickCheckboxBlock = ^(BOOL isChecked) {
-                [wself invokeJSMethod:viewModelDict[@"clickCheckboxBlock"] params:(isChecked ? @"true" : @"false"), nil];
+                [wself invokeJSMethod:viewModelDict[@"clickCheckboxBlock"] params:(isChecked ? @"true" : @"false")];
             };
         }
+        
+        if (viewModelDict[@"clickAuthButtonBlock"]) {
+            viewModel.clickAuthButtonBlock = ^{
+                [wself invokeJSMethod:viewModelDict[@"clickAuthButtonBlock"] params:nil];
+            };
+        }
+        
+        if (viewModelDict[@"hintBlock"]) {
+            viewModel.hintBlock = ^{
+                [wself invokeJSMethod:viewModelDict[@"hintBlock"] params:nil];
+            };
+        }
+        
+        
     }
     
     UIViewController *controller = [self findCurrentShowingViewController];
@@ -784,10 +853,16 @@ WX_EXPORT_METHOD_SYNC(@selector(dismissAuthViewController))
     [OneLoginPro dismissAuthViewController:nil];
 }
 
-WX_EXPORT_METHOD_SYNC(@selector(renewPreGetToken))
+WX_EXPORT_METHOD(@selector(renewPreGetToken))
 
 - (void)renewPreGetToken {
     [OneLoginPro renewPreGetToken];
+}
+
+WX_EXPORT_METHOD_SYNC(@selector(deletePreResultCache))
+
++ (void)deletePreResultCache {
+    [OneLoginPro deletePreResultCache];
 }
 
 WX_EXPORT_METHOD_SYNC(@selector(sdkVersion))

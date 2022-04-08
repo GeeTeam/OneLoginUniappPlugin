@@ -66,10 +66,20 @@ static NSString * const OLErrorDesc_20406 = @"Preget token timeout.";
 static NSString * const OLCarrierSDKErrorDomain  = @"com.geetest.carriersdkerror";
 static NSString * const OLErrorCode_20407 = @"-20407";  // 移动 SDK TYRZSDK.framework 有误
 static NSString * const OLErrorCode_20408 = @"-20408";  // 联通 SDK account_login_sdk_noui_core.framework 有误
-static NSString * const OLErrorCode_20409 = @"-20409";  // 移动 SDK EAccountApiSDK.framework 有误
+static NSString * const OLErrorCode_20409 = @"-20409";  // 电信 SDK EAccountApiSDK.framework 有误
 
 static NSString * const OLErrorCode_20410 = @"-20410";  // 未获取到 key window
 static NSString * const OLErrorDesc_20410 = @"Key window is nil.";
+
+static NSString * const OLErrorCode_20420 = @"-20420";  // 获取的 token 缺失
+static NSString * const OLErrorDesc_20420 = @"Missing token result.";
+
+static NSString * const OLErrorCode_20490 = @"-20490";  // 未获取到present认证页面控制器的vc
+static NSString * const OLErrorDesc_20490 = @"ViewController can't be nil";
+
+// ****************** -206.. 其他模块的错误封装 ******************/
+static NSString * const OLErrorCode_20600 = @"-20600";  // 验证模块校验失败
+static NSString * const OLErrorDesc_20600 = @"Captcha fail.";
 
 // ****************** -2041. iOS专用，rsa加密失败 ******************/
 static NSString * const OLRsaErrorDomain  = @"com.geetest.rsaencrypterror";
