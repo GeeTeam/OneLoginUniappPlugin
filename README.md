@@ -1074,7 +1074,7 @@ phone|String| 手机号
 ## 前置条件
 
 - 极验 SDK 支持 Xcode 11+，iOS 8.0+ 版本
-- 极验 SDK 支持中国移动 4G/3G/2G、联通 4G/3G、电信4G 的取号能力
+- 极验 SDK 支持中国移动 5G/4G/3G/2G、联通 5G/4G/3G、电信5G/4G（2G/3G 网络下时延相对较高，成功率相对较低）
 - 极验 SDK 支持网络环境为
 
 1. 纯数据网络
@@ -1218,6 +1218,16 @@ gtSDKModule.renewPreGetToken();
 
 - 建议在用户退出登录时调用该接口
 
+### 分别设置预取号和取号超时时间
+
+在 SDK 初始化之前，调用`setRequestTimeout:requestTokenTimeout:` 分别设置预取号和取号的超时时间
+
+调用示例：
+```js
+gtSDKModule.renewPreGetToken();
+```
+
+
 ### 授权页面配置
 
 通过设置 viewModel 可实现授权页面的配置
@@ -1292,6 +1302,8 @@ let viewModel = {
 	modalPresentationStyle: 0,
 	pullAuthVCStyle: 1,
 	userInterfaceStyle: 0,
+	languageType: 1,
+	shakeStyle: 1,
 	widgets: [{
 		type: "UIButton", 
 		UIButtonType: 0, 
@@ -1340,13 +1352,7 @@ let viewModel = {
 		image: 'static/weixin_icon.png',
 		action: 'weixinLogin',
 		frame: [screenWidth/2 + 10, screenHeight - 200, 45, 45]
-	}],
-	authVCTransitionBlock: 'authVCTransitionBlock',
-	tapAuthBackgroundBlock: 'tapAuthBackgroundBlock',
-	viewLifeCycleBlock: 'viewLifeCycleBlock',
-	clickBackButtonBlock: 'clickBackButtonBlock',
-	clickSwitchButtonBlock: 'clickSwitchButtonBlock',
-	clickCheckboxBlock: 'clickCheckboxBlock'
+	}]
 }
 ```
 
@@ -1416,12 +1422,10 @@ let viewModel = {
 | modalPresentationStyle | present 授权页面时的样式，具体值请参考 iOS 的 UIModalPresentationStyle 枚举
 | pullAuthVCStyle | 拉起授权页面的方式，0 表示通过 presentViewController 方式进入授权页面，1 表示通过 pushViewController 方式进入授权页面
 | userInterfaceStyle | 系统样式，0 表示不指定样式，跟随系统设置，1 表示明亮模式，2 表示黑夜模式，仅在 iOS 13 及以上的系统有效
-| authVCTransitionBlock | 授权页面旋转回调
-| tapAuthBackgroundBlock | 点击授权页面背景回调
-| viewLifeCycleBlock | 授权页面生命周期回调
-| clickBackButtonBlock | 点击返回按钮回调
-| clickSwitchButtonBlock | 点击切换账号按钮回调
-| clickCheckboxBlock | 点击勾选框回调
+| shakeStyle | 服务条款抖动样式，默认不抖动
+| languageType | 多语言配置，支持中文简体，中文繁体，英文
+| hasQuotationMarkOnCarrierProtocol | 是否在运营商协议名称上加书名号《》
+| supportedInterfaceOrientations | 授权页面支持的横竖屏方向
 | widgets | 自定义控件，支持自定义 UIButton、UILabel、UIView、UIImageView，具体自定义方法请参考下面代码
 
 ```js
@@ -1528,6 +1532,74 @@ typedef struct OLRect {
      */
     CGSize size;
 } OLRect;
+```
+授权页的事件监听改为使用`globalEvent`添加监听事件
+
+示例代码
+
+```js
+var globalEvent = uni.requireNativePlugin('globalEvent');
+globalEvent.addEventListener('customButtonAction',function(e) {
+	console.log("=========== custom button pressed =========== ");
+});
+globalEvent.addEventListener('qqLogin',function(e) {
+	console.log("=========== qqLogin =========== ");
+	gtSDKModule.dismissAuthViewController();
+	uni.showToast({
+		icon: "none",
+		title: "qq登录",
+		duration: 2000 ,
+	});
+});
+globalEvent.addEventListener('weixinLogin',function(e) {
+	console.log("=========== weixinLogin =========== ");
+	gtSDKModule.dismissAuthViewController();
+	uni.showToast({
+		icon: "none",
+		title: "微信登录",
+		duration: 2000
+	});
+});
+globalEvent.addEventListener('authVCTransitionBlock',function(e) {
+	console.log("=========== authVCTransitionBlock =========== ");
+});
+globalEvent.addEventListener('tapAuthBackgroundBlock',function(e) {
+	console.log("=========== tapAuthBackgroundBlock =========== ");
+});
+globalEvent.addEventListener('viewLifeCycleBlock',function(e) {
+	let jsonString = JSON.stringify(e);
+	let obj = JSON.parse(jsonString); 
+	let viewLifeCycle = obj['GTOLKey'];
+	let viewLifeCycleArr = viewLifeCycle.split(',');
+	console.log("=========== viewLifeCycle: " + viewLifeCycleArr);
+	if (viewLifeCycleArr[0] == 'viewDidLoad') {
+		uni.hideLoading();
+	}
+});
+globalEvent.addEventListener('clickBackButtonBlock',function(e) {
+	console.log("=========== clickBackButtonBlock =========== ");
+});
+
+globalEvent.addEventListener('clickSwitchButtonBlock', function(e) {
+console.log("=========== clickSwitchButtonBlock =========== ");
+});
+globalEvent.addEventListener('clickCheckboxBlock', function(e) {
+	let jsonString = JSON.stringify(e);
+	let obj = JSON.parse(jsonString); 
+	let isChecked = obj['GTOLKey'];
+	console.log("=========== clickCheckboxBlock =========== "+ isChecked);
+	if (isChecked == 'true') {
+		console.log("=========== checkbox is checked =========== ");
+	} else if (isChecked == 'false') {
+		console.log("=========== checkbox is unchecked =========== ");
+	}
+});
+globalEvent.addEventListener('clickAuthButtonBlock', function(e) {
+console.log("=========== clickAuthButtonBlock =========== ");
+});
+globalEvent.addEventListener('hintBlock', function(e) {
+console.log("=========== hintBlock =========== ");
+});
 ```
 
 ### 设置日志开关
