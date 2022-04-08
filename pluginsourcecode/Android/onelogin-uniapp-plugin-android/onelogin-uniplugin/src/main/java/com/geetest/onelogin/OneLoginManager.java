@@ -57,7 +57,10 @@ public class OneLoginManager extends WXSDKEngine.DestroyableModule {
         String msg;
         try {
             String appId = jsonObject.getString("appid");
-            int timeout = jsonObject.getInteger("timeout");
+            int timeout = -1;
+            if (jsonObject.containsKey("timeout")) {
+                timeout = jsonObject.getInteger("timeout");
+            }
             Context context = this.mWXSDKInstance.getContext().getApplicationContext();
             Log.i(TAG, "register context=" + context + ", pkgName=" + context.getPackageName());
             Log.i(TAG, "register appId=" + appId + ", timeout=" + timeout);
@@ -74,11 +77,10 @@ public class OneLoginManager extends WXSDKEngine.DestroyableModule {
         JSONObject resultJson = new JSONObject();
         if (result) {
             resultJson.put(JS_RESULT_CODE, SUCCESS);
-            resultJson.put(JS_RESULT_MESSAGE, msg);
         } else {
             resultJson.put(JS_RESULT_CODE, FAILURE);
-            resultJson.put(JS_RESULT_MESSAGE, msg);
         }
+        resultJson.put(JS_RESULT_MESSAGE, msg);
         registerListener.invoke(resultJson);
     }
 
@@ -126,11 +128,10 @@ public class OneLoginManager extends WXSDKEngine.DestroyableModule {
         JSONObject resultJson = new JSONObject();
         if (result) {
             resultJson.put(JS_RESULT_CODE, SUCCESS);
-            resultJson.put(JS_RESULT_MESSAGE, msg);
         } else {
             resultJson.put(JS_RESULT_CODE, FAILURE);
-            resultJson.put(JS_RESULT_MESSAGE, msg);
         }
+        resultJson.put(JS_RESULT_MESSAGE, msg);
         initListener.invoke(resultJson);
     }
 
@@ -152,5 +153,23 @@ public class OneLoginManager extends WXSDKEngine.DestroyableModule {
     public void destroy() {
         oneLoginUtils = null;
         onePassUtils = null;
+    }
+
+    @JSMethod(uiThread = false)
+    public boolean isProtocolCheckboxChecked() {
+        return OneLoginHelper.with().isPrivacyChecked();
+    }
+
+    @JSMethod(uiThread = true)
+    public void setProtocolCheckState(boolean checked) {
+        Log.i(TAG, "setProtocolCheckState=" + checked);
+        OneLoginHelper.with().setProtocolCheckState(checked);
+    }
+
+    @JSMethod(uiThread = false)
+    public void setRequestTimeout(int preGetTokenTimeout, int requestTokenTimeout) {
+        Log.i(TAG, "setRequestTimeout preGetTokenTimeout=" + preGetTokenTimeout
+                + ",requestTokenTimeout=" + requestTokenTimeout);
+        OneLoginHelper.with().setRequestTimeout(preGetTokenTimeout, requestTokenTimeout);
     }
 }

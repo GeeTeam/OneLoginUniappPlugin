@@ -33,7 +33,7 @@
 -keep class com.** {*;}
 -keep class io.dcloud.nineoldandroids.** {*;}
 -keep class vi.com.gdi.** {*;}
--keep class android.support.v4.** {*;}
+-keep class androidx.** {*;}
 -dontwarn pl.droidsonroids.gif.**
 
 -keepclasseswithmembers class * extends io.dcloud.js.geolocation.GeoManagerBase {
@@ -139,6 +139,17 @@
 -dontwarn org.apache.commons.**
 -dontwarn com.sina.weibo.sdk.**
 
+
+-keep class uni.** {*;}
+-keep class pl.** {*;}
+-keep class io.** {*;}
+-keep class org.mozilla.**{*;}
+
+-keep class androidtranscoder.**{*;}
+-keep class XI.**{*;}
+
+
+
 -keep class com.geetest.onelogin.OneLoginHelper{*;}
 -keep class com.geetest.onelogin.listener.AbstractOneLoginListener{*;}
 -keep class com.geetest.onelogin.listener.SecurityPhoneListener{*;}
@@ -151,8 +162,6 @@
 -keep class com.geetest.common.support.IntRange*{*;}
 -keep class com.geetest.common.support.NonNull*{*;}
 -keep class com.geetest.common.support.Nullable*{*;}
-
--keep class com.geetest.onelogindemo.**{*;}
 
 -dontwarn com.geetest.onelogin.**
 -keep class com.geetest.onelogin.** {
@@ -168,110 +177,11 @@
 -keep class com.cmic.sso.sdk.** {
 *;
 }
--dontwarn com.unicom.**
--keep class com.unicom.** {
+-dontwarn com.unigeetest.**
+-keep class com.unigeetest.** {
 *;
 }
 -dontwarn cn.com.chinatelecom.account.**
 -keep class cn.com.chinatelecom.account.** {
 *;
 }
--dontwarn com.geetest.sdk.**
--keep class com.geetest.sdk.**{
-*;
-}
-
-#doraemonkit
--dontwarn com.didichuxing.doraemonkit.**
--keep class com.didichuxing.doraemonkit.**{
-*;
-}
-
-# fastjson
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.**{
-*;
-}
-
-# almworks
--dontwarn com.almworks.**
--keep class com.almworks.**{
-*;
-}
-
-# fresco
--dontwarn com.facebook.fresco.**
--keep class com.facebook.fresco.**{
-*;
-}
--dontwarn jp.wasabeef.**
--keep class jp.wasabeef.**{
-*;
-}
-
-# gson
--dontwarn com.google.code.gson.**
--keep class com.google.code.gson.**{
-*;
-}
-
-# zxing
--dontwarn com.google.zxing.**
--keep class com.google.zxing.**{
-*;
-}
-
-# haha
--dontwarn com.squareup.haha.**
--keep class com.squareup.haha.**{
-*;
-}
-
-# weex
--dontwarn com.taobao.android.**
--keep class com.taobao.android.**{
-*;
-}
-
-# anzaizai
--dontwarn com.github.anzaizai.**
--keep class com.github.anzaizai.**{
-*;
-}
-
-# umeng
--dontwarn com.umeng.umsdk.**
--keep class com.umeng.umsdk.**{
-*;
-}
-
-# reactex
--dontwarn io.reactivex.**
--keep class io.reactivex.**{
-*;
-}
-
-# sqlcipher
--dontwarn net.sqlcipher.**
--keep class net.sqlcipher.**{
-*;
-}
-
-# nostra13
--dontwarn com.nostra13.**
--keep class com.nostra13.**{
-*;
-}
-
-#module扩展的混淆
--keep public class * extends com.taobao.weex.common.WXModule{*;}
-#component扩展混淆
--keep public class * extends com.taobao.weex.ui.component.WXComponent{*;}
-
--keep public class * extends io.dcloud.common.DHInterface.BaseFeature
--keep public class * implements io.dcloud.common.DHInterface.IFeature
-
--dontwarn com.igexin.
--dontwarn io.dcloud.
--dontwarn com.deppon.
--dontwarn pl.droidsonroids.

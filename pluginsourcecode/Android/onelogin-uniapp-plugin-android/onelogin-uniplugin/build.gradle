@@ -1,21 +1,19 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+}
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion "${BUILD_TOOLS_VERSION}"
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName "${VERSION_NAME}"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'onelogin-proguard-rules.pro'
-
-        ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-        }
     }
 
     buildTypes {
@@ -29,6 +27,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     packagingOptions{
         doNotStrip "*/armeabi/*.so"
@@ -70,11 +72,12 @@ def releaseTime() {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.alibaba:fastjson:1.1.46.android'
-    implementation 'com.facebook.fresco:fresco:0.12.0'
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.geetest.android:onelogin:2.1.4.1'
-    compileOnly fileTree(include: ['uniapp-release.aar'], dir: '../app/libs')
+    compileOnly fileTree(dir: '../app/libs', include: ['uniapp-v8-release.aar'])
+
+    implementation 'com.alibaba:fastjson:1.1.71.android'
+
+    implementation 'com.geetest.android:onelogin:2.7.4'
 }

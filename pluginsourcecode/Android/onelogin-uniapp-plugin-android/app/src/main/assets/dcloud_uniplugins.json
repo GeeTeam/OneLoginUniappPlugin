@@ -4,7 +4,7 @@
       "plugins": [
         {
           "type": "module",
-          "name": "GTOneLoginSDKModule",
+          "name": "Geetest-GTOneLoginSDKModule",
           "class": "com.geetest.onelogin.OneLoginManager"
         }
       ]

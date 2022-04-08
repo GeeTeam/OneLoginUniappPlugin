@@ -1,6 +1,7 @@
 package com.geetest.onelogin;
 
 import android.view.Gravity;
+import android.view.ViewGroup;
 
 public class OneLoginBean {
     /**
@@ -8,7 +9,7 @@ public class OneLoginBean {
      */
     public int statusBarColor = 0;
     /**
-     * 状态栏字体颜色 只能是黑白
+     * 状态栏字体颜色 true为黑 false为白
      */
     public boolean isLightColor = false;
     /**
@@ -36,7 +37,7 @@ public class OneLoginBean {
     /**
      * 标题栏标题文字
      */
-    public String navText = "一键登录";
+    public String navText = "";
     /**
      * 授权页标题栏文字颜色
      */
@@ -63,13 +64,13 @@ public class OneLoginBean {
      */
     public boolean isUseNormalWebActivity = true;
     /**
-     * 隐私条款页是否使用默认标题
+     * 隐私条款页是否使用自定义标题
      */
     public boolean navWebTextNormal = false;
     /**
-     * 隐私条款页默认标题
+     * 隐私条款页自定义标题
      */
-    public String navWebText = "服务条款";
+    public String navWebText = "";
     /**
      * 隐私条款页标题栏文字颜色
      */
@@ -90,6 +91,11 @@ public class OneLoginBean {
      * 隐私条款页标题栏文字字体是否倾斜
      */
     public boolean navWebTextTypefaceItalic = false;
+
+    /**
+     * 标题栏标题文本的左右边距，默认不碰到返回按钮
+     */
+    public int navTextMargin = 36;
 
     /**
      * 标题栏返回图标
@@ -232,6 +238,11 @@ public class OneLoginBean {
     public int numberOffsetY_B = 0;
 
     /**
+     *  slogan 是否显示，默认显示
+     */
+    public boolean sloganVisible = true;
+
+    /**
      * slogan文字颜色
      */
     public int sloganColor = 0xFFA8A8A8;
@@ -265,11 +276,23 @@ public class OneLoginBean {
      * slogan相对于底部y偏移
      */
     public int sloganOffsetY_B = 0;
+    /**
+     * 运营商品牌栏
+     */
+    public String sloganText = "";
+    /**
+     * Slogan 宽度，默认自适应
+     */
+    public int sloganWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    /**
+     * Slogan 高度，默认自适应
+     */
+    public int sloganHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
      * 登录按钮文字
      */
-    public String logBtnText = "一键登录";
+    public String logBtnText = "";
     /**
      * 登录按钮宽度
      */
@@ -303,7 +326,11 @@ public class OneLoginBean {
     /**
      * 登录按钮背景图片
      */
-    public String logBtnImgPath = "gt_one_login_btn_normal";
+    public String logBtnImgPath = "gt_one_login_btn";
+    /**
+     * 隐私条款未勾选同意时登录按钮的背景图片
+     */
+    public String logBtnUncheckedImgPath = "gt_one_login_btn_unchecked";
     /**
      * 登录按钮X轴偏移
      */
@@ -400,12 +427,12 @@ public class OneLoginBean {
     /**
      * 切换帐号背景宽
      */
-    public int switchWidth = 80;
+    public int switchWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
      * 切换帐号背景高
      */
-    public int switchHeight = 25;
+    public int switchHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     /**
      * 隐私协议X轴
@@ -428,19 +455,19 @@ public class OneLoginBean {
     /**
      * 隐私条款连接字符1
      */
-    public String privacyTextViewTv1 = "登录即同意";
+    public String privacyTextViewTv1 = "";
     /**
      * 隐私条款连接字符2
      */
-    public String privacyTextViewTv2 = "和";
+    public String privacyTextViewTv2 = "";
     /**
      * 隐私条款连接字符3
      */
-    public String privacyTextViewTv3 = "、";
+    public String privacyTextViewTv3 = "";
     /**
      * 隐私条款连接字符4
      */
-    public String privacyTextViewTv4 = "并使用本机号码登录";
+    public String privacyTextViewTv4 = "";
 
     /**
      * 多个开发者隐私条款
@@ -520,11 +547,11 @@ public class OneLoginBean {
     /**
      * 隐私条款check框默认状态
      */
-    public boolean privacyState = true;
+    public boolean privacyState = false;
     /**
      * 隐私条款check框未选择时点击一键登录按钮提示文字
      */
-    public String privacyUnCheckedToastText = "请同意服务条款";
+    public String privacyUnCheckedToastText = "";
     /**
      * 复选框宽度
      */
@@ -536,7 +563,11 @@ public class OneLoginBean {
     /**
      * 复选框Y轴偏移
      */
-    public int privacyCheckBoxOffsetY = 2;
+    public int privacyCheckBoxOffsetY = 0;
+    /**
+     * 复选框与隐私文本之间的间距
+     */
+    public int privacyCheckBoxMarginRight = 5;
 
     /**
      * 隐私条款是否增加书名号显示
@@ -546,6 +577,18 @@ public class OneLoginBean {
      * 隐私协议文字对齐方式
      */
     public int privacyTextGravity = Gravity.TOP | Gravity.START;
+
+    /**
+     * 服务条款未勾选时点击一键登录服务条款执行的动画样式，默认无动画
+     * 0：无动画 1：水平振动 2：垂直振动
+     */
+    public int protocolShakeStyle = 0;
+
+    /**
+     * 语言设置，默认中文简体
+     * 0：中文简体 1：中文繁体 2：英文
+     */
+    public int languageType = 0;
 
     public int getStatusBarColor() {
         return statusBarColor;
@@ -713,6 +756,14 @@ public class OneLoginBean {
 
     public void setNavWebTextTypefaceItalic(boolean navWebTextTypefaceItalic) {
         this.navWebTextTypefaceItalic = navWebTextTypefaceItalic;
+    }
+
+    public int getNavTextMargin() {
+        return navTextMargin;
+    }
+
+    public void setNavTextMargin(int navTextMargin) {
+        this.navTextMargin = navTextMargin;
     }
 
     public String getReturnImgPath() {
@@ -963,6 +1014,14 @@ public class OneLoginBean {
         this.numberOffsetY_B = numberOffsetY_B;
     }
 
+    public boolean isSloganVisible() {
+        return sloganVisible;
+    }
+
+    public void setSloganVisible(boolean sloganVisible) {
+        this.sloganVisible = sloganVisible;
+    }
+
     public int getSloganColor() {
         return sloganColor;
     }
@@ -1025,6 +1084,30 @@ public class OneLoginBean {
 
     public void setSloganOffsetY_B(int sloganOffsetY_B) {
         this.sloganOffsetY_B = sloganOffsetY_B;
+    }
+
+    public String getSloganText() {
+        return sloganText;
+    }
+
+    public void setSloganText(String sloganText) {
+        this.sloganText = sloganText;
+    }
+
+    public int getSloganWidth() {
+        return sloganWidth;
+    }
+
+    public void setSloganWidth(int sloganWidth) {
+        this.sloganWidth = sloganWidth;
+    }
+
+    public int getSloganHeight() {
+        return sloganHeight;
+    }
+
+    public void setSloganHeight(int sloganHeight) {
+        this.sloganHeight = sloganHeight;
     }
 
     public String getLogBtnText() {
@@ -1097,6 +1180,14 @@ public class OneLoginBean {
 
     public void setLogBtnImgPath(String logBtnImgPath) {
         this.logBtnImgPath = logBtnImgPath;
+    }
+
+    public String getLogBtnUncheckedImgPath() {
+        return logBtnUncheckedImgPath;
+    }
+
+    public void setLogBtnUncheckedImgPath(String logBtnUncheckedImgPath) {
+        this.logBtnUncheckedImgPath = logBtnUncheckedImgPath;
     }
 
     public int getLogBtnOffsetX() {
@@ -1531,6 +1622,14 @@ public class OneLoginBean {
         this.privacyCheckBoxOffsetY = privacyCheckBoxOffsetY;
     }
 
+    public int getPrivacyCheckBoxMarginRight() {
+        return privacyCheckBoxMarginRight;
+    }
+
+    public void setPrivacyCheckBoxMarginRight(int privacyCheckBoxMarginRight) {
+        this.privacyCheckBoxMarginRight = privacyCheckBoxMarginRight;
+    }
+
     public boolean isPrivacyAddFrenchQuotes() {
         return privacyAddFrenchQuotes;
     }
@@ -1545,6 +1644,22 @@ public class OneLoginBean {
 
     public void setPrivacyTextGravity(int privacyTextGravity) {
         this.privacyTextGravity = privacyTextGravity;
+    }
+
+    public int getProtocolShakeStyle() {
+        return protocolShakeStyle;
+    }
+
+    public void setProtocolShakeStyle(int protocolShakeStyle) {
+        this.protocolShakeStyle = protocolShakeStyle;
+    }
+
+    public int getLanguageType() {
+        return languageType;
+    }
+
+    public void setLanguageType(int languageType) {
+        this.languageType = languageType;
     }
 
     public OneLoginBean() {

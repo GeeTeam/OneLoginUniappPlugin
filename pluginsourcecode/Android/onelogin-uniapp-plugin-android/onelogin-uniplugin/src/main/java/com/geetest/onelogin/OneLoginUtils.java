@@ -17,9 +17,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.geetest.onelogin.config.AuthRegisterViewConfig;
+import com.geetest.onelogin.config.OLLanguageType;
 import com.geetest.onelogin.config.OneLoginThemeConfig;
 
 import com.alibaba.fastjson.JSONObject;
+import com.geetest.onelogin.config.ProtocolShakeStyle;
 import com.geetest.onelogin.listener.CustomInterface;
 import com.taobao.weex.bridge.JSCallback;
 
@@ -46,13 +48,17 @@ public class OneLoginUtils {
     }
 
     public void register(int timeout) {
-        OneLoginHelper.with().register("", timeout);
+        if (timeout == -1) {
+            OneLoginHelper.with().register("");
+        } else {
+            OneLoginHelper.with().register("", timeout);
+        }
     }
 
     public void requestToken(JSONObject jsonObject, JSCallback callback) {
         OneLoginThemeConfig oneLoginThemeConfig = initConfig(jsonObject, callback);
-//        printConfig(oneLoginThemeConfig);
-//        Log.d(TAG, "***********************************");
+        printConfig(oneLoginThemeConfig);
+        Log.d(TAG, "***********************************");
 //        printConfig(new OneLoginThemeConfig.Builder().build());
 
         RequestTokenListener tokenListener = new RequestTokenListener(callback);
@@ -82,205 +88,6 @@ public class OneLoginUtils {
         OneLoginHelper.with().cancel();
     }
 
-//    private OneLoginThemeConfig getThemeConfig(JSONObject jsonObject) {
-//        int statusBarColor = getInt(jsonObject, "statusBarColor");
-//        int navigationBarColor = getInt(jsonObject, "navigationBarColor");
-//        boolean isLightColor  = getBoolean(jsonObject, "isLightColor");
-//
-//        int navColor = getInt(jsonObject, "navColor");
-//        int authNavHeight = getInt(jsonObject, "authNavHeight");
-//        boolean authNavTransparent = getBoolean(jsonObject, "authNavTransparent");
-//        boolean authNavGone = getBoolean(jsonObject, "authNavGone");
-//
-//        String navText = getString(jsonObject, "navText");
-//        int navTextColor = getInt(jsonObject, "navTextColor");
-//        int navTextSize = getInt(jsonObject, "navTextSize");
-//        boolean navTextNormal = getBoolean(jsonObject, "navTextNormal");
-//        String navWebViewText = getString(jsonObject, "navWebViewText");
-//        int navWebViewTextColor = getInt(jsonObject, "navWebViewTextColor");
-//        int navWebViewTextSize = getInt(jsonObject, "navWebViewTextSize");
-//
-////        String navTextTypeface = getString(jsonObject, "navTextTypeface");
-////        String navWebViewTextTypeface = getString(jsonObject, "navWebViewTextTypeface");
-//
-//        String authBGImgPath = getString(jsonObject, "authBGImgPath");
-//        String authBgVideoUri = getString(jsonObject, "authBgVideoUri");
-//
-//        boolean isDialogTheme = getBoolean(jsonObject, "isDialogTheme");
-//        int dialogWidth = getInt(jsonObject, "dialogWidth");
-//        int dialogHeight = getInt(jsonObject, "dialogHeight");
-//        int dialogX = getInt(jsonObject, "dialogX");
-//        int dialogY = getInt(jsonObject, "dialogY");
-//        boolean isDialogBottom = getBoolean(jsonObject, "isDialogBottom");
-//        boolean isWebViewDialogTheme = getBoolean(jsonObject, "isWebViewDialogTheme");
-//
-//        String navReturnImgPath = getString(jsonObject, "navReturnImgPath");
-//        int returnImgWidth = getInt(jsonObject, "returnImgWidth");
-//        int returnImgHeight = getInt(jsonObject, "returnImgHeight");
-//        boolean navReturnImgHidden = getBoolean(jsonObject, "navReturnImgHidden");
-//        int returnImgOffsetX = getInt(jsonObject, "returnImgOffsetX");
-//
-//        boolean returnImgCenterInVertical;
-//        int returnImgOffsetY;
-//        if(jsonObject.containsKey("returnImgOffsetY")) {
-//            returnImgCenterInVertical = false;
-//            returnImgOffsetY = getInt(jsonObject, "returnImgOffsetY");
-//        } else {
-//            returnImgCenterInVertical = true;
-//            returnImgOffsetY = 0;
-//        }
-//
-//        String logoImgPath = getString(jsonObject, "logoImgPath");
-//        int logoWidth = getInt(jsonObject, "logoWidth");
-//        int logoHeight = getInt(jsonObject, "logoHeight");
-//        boolean logoHidden = getBoolean(jsonObject, "logoHidden");
-//        int logoOffsetY = getInt(jsonObject, "logoOffsetY");
-//        int logoOffsetY_B = getInt(jsonObject, "logoOffsetY_B");
-//        int logoOffsetX = getInt(jsonObject, "logoOffsetX");
-//
-//        int numberColor = getInt(jsonObject, "numberColor");
-//        int numberSize = getInt(jsonObject, "numberSize");
-//        int numFieldOffsetY = getInt(jsonObject, "numFieldOffsetY");
-//        int numFieldOffsetY_B = getInt(jsonObject, "numFieldOffsetY_B");
-//        int numFieldOffsetX = getInt(jsonObject, "numFieldOffsetX");
-//
-////        String numberViewTypeface = getString(jsonObject, "numberViewTypeface");
-//
-//        String switchText = getString(jsonObject, "switchText");
-//        int switchColor = getInt(jsonObject, "switchColor");
-//        int switchSize = getInt(jsonObject, "switchSize");
-//        boolean switchAccHidden = getBoolean(jsonObject, "switchAccHidden");
-//        int switchAccOffsetY = getInt(jsonObject, "switchAccOffsetY");
-//        int switchOffsetY_B = getInt(jsonObject, "switchOffsetY_B");
-//        int switchOffsetX = getInt(jsonObject, "switchOffsetX");
-//
-////        String switchViewTypeface = getString(jsonObject, "switchViewTypeface");
-//
-//        String switchImgPath = getString(jsonObject, "switchImgPath");
-//        int switchWidth = getInt(jsonObject, "switchWidth");
-//        int switchHeight = getInt(jsonObject, "switchHeight");
-//
-//        String loginImgPath = getString(jsonObject, "loginImgPath");
-//        int logBtnWidth = getInt(jsonObject, "logBtnWidth");
-//        int logBtnHeight = getInt(jsonObject, "logBtnHeight");
-//        int logBtnOffsetY = getInt(jsonObject, "logBtnOffsetY");
-//        int logBtnOffsetY_B = getInt(jsonObject, "logBtnOffsetY_B");
-//        int logBtnOffsetX = getInt(jsonObject, "logBtnOffsetX");
-//
-//        String loginButtonText = getString(jsonObject, "loginButtonText");
-//        int loginButtonColor = getInt(jsonObject, "loginButtonColor");
-//        int logBtnTextSize = getInt(jsonObject, "logBtnTextSize");
-//
-////        String logBtnTextViewTypeface = getString(jsonObject, "logBtnTextViewTypeface");
-//
-//        boolean disableBtnIfUnChecked = getBoolean(jsonObject, "disableBtnIfUnChecked");
-//
-//        String loadingView = getString(jsonObject, "loadingView");
-//        int loadingViewWidth = getInt(jsonObject, "loadingViewWidth");
-//        int loadingViewHeight = getInt(jsonObject, "loadingViewHeight");
-//        int loadingViewOffsetRight = getInt(jsonObject, "loadingViewOffsetRight");
-//
-//        boolean loadingViewCenterInVertical;
-//        int loadingViewOffsetY;
-//        if(jsonObject.containsKey("loadingViewOffsetY")) {
-//            loadingViewCenterInVertical = false;
-//            loadingViewOffsetY = getInt(jsonObject, "loadingViewOffsetY");
-//        } else {
-//            loadingViewCenterInVertical = true;
-//            loadingViewOffsetY = 0;
-//        }
-//
-//        int sloganColor = getInt(jsonObject, "sloganColor");
-//        int sloganSize = getInt(jsonObject, "sloganSize");
-//        int sloganOffsetY = getInt(jsonObject, "sloganOffsetY");
-//        int sloganOffsetY_B = getInt(jsonObject, "sloganOffsetY_B");
-//        int sloganOffsetX = getInt(jsonObject, "sloganOffsetX");
-//
-////        String sloganViewTypeface = getString(jsonObject, "sloganViewTypeface");
-//
-//        int privacyLayoutWidth = getInt(jsonObject, "privacyLayoutWidth");
-//        int privacyOffsetY = getInt(jsonObject, "privacyOffsetY");
-//        int privacyOffsetY_B = getInt(jsonObject, "privacyOffsetY_B");
-//        int privacyOffsetX = getInt(jsonObject, "privacyOffsetX");
-//        boolean isUseNormalWebActivity = getBoolean(jsonObject, "isUseNormalWebActivity");
-//
-//        String unCheckedImgPath = getString(jsonObject, "unCheckedImgPath");
-//        String checkedImgPath = getString(jsonObject, "checkedImgPath");
-//        boolean privacyState = getBoolean(jsonObject, "privacyState");
-//        int privacyCheckBoxWidth = getInt(jsonObject, "privacyCheckBoxWidth");
-//        int privacyCheckBoxHeight = getInt(jsonObject, "privacyCheckBoxHeight");
-//        int privacyCheckBoxOffsetY = 0;
-//        if(jsonObject.containsKey("privacyCheckBoxOffsetY")) {
-//            privacyCheckBoxOffsetY = getInt(jsonObject, "privacyCheckBoxOffsetY");
-//        }
-//
-//        String privacyTextViewTv1 = getString(jsonObject, "privacyTextViewTv1");
-//        String privacyTextViewTv2 = getString(jsonObject, "privacyTextViewTv2");
-//        String privacyTextViewTv3 = getString(jsonObject, "privacyTextViewTv3");
-//        String privacyTextViewTv4 = getString(jsonObject, "privacyTextViewTv4");
-//
-//        String clauseNameOne = getString(jsonObject, "clauseNameOne");
-//        String clauseUrlOne = getString(jsonObject, "clauseUrlOne");
-//        String clauseNameTwo = getString(jsonObject, "clauseNameTwo");
-//        String clauseUrlTwo = getString(jsonObject, "clauseUrlTwo");
-//        String clauseNameThree = getString(jsonObject, "clauseNameThree");
-//        String clauseUrlThree = getString(jsonObject, "clauseUrlThree");
-//
-////        String privacyClauseTextStrings = getString(jsonObject, "privacyClauseTextStrings");
-//
-//        int baseClauseColor = getInt(jsonObject, "baseClauseColor");
-//        int clauseColor = getInt(jsonObject, "clauseColor");
-//        int privacyClauseTextSize = getInt(jsonObject, "privacyClauseTextSize");
-//
-////        String privacyClauseBaseTextViewTypeface = getString(jsonObject, "privacyClauseBaseTextViewTypeface");
-////        String privacyClauseTextViewTypeface = getString(jsonObject, "privacyClauseTextViewTypeface");
-//
-//        String privacyUnCheckedToastText = getString(jsonObject, "privacyUnCheckedToastText");
-//
-//        boolean privacyAddFrenchQuotes = getBoolean(jsonObject, "privacyAddFrenchQuotes");
-//
-//        int privacyTextGravity = getInt(jsonObject, "privacyTextGravity");
-//
-//
-//        OneLoginThemeConfig.Builder builder = new OneLoginThemeConfig.Builder();
-//
-//        builder.setStatusBar(statusBarColor, navigationBarColor, isLightColor);
-//        builder.setAuthNavLayout(navColor, authNavHeight, authNavTransparent, authNavGone);
-//        builder.setAuthNavTextView(navText, navTextColor, navTextSize, navTextNormal, navWebViewText, navWebViewTextColor,navWebViewTextSize);
-////        builder.setAuthNavTextViewTypeface(navTextTypeface, navWebViewTextTypeface);
-//        builder.setAuthBGImgPath(authBGImgPath);
-//        builder.setAuthBgVideoUri(authBgVideoUri);
-//        builder.setDialogTheme(isDialogTheme, dialogWidth,dialogHeight, dialogX, dialogY, isDialogBottom, isWebViewDialogTheme);
-//        builder.setAuthNavReturnImgView(navReturnImgPath, returnImgWidth, returnImgHeight, navReturnImgHidden, returnImgOffsetX);
-//        builder.setAuthNavReturnImgView(navReturnImgPath, returnImgWidth, returnImgHeight, navReturnImgHidden, returnImgOffsetX, returnImgOffsetY);
-//        builder.setLogoImgView(logoImgPath, logoWidth, logoHeight, logoHidden, logoOffsetY, logoOffsetY_B, logoOffsetX);
-//        builder.setNumberView(numberColor, numberSize,numFieldOffsetY, numFieldOffsetY_B, numFieldOffsetX);
-////        builder.setNumberViewTypeface(numberViewTypeface);
-//        builder.setSwitchView(switchText, switchColor, switchSize, switchAccHidden, switchAccOffsetY,switchOffsetY_B, switchOffsetX);
-////        builder.setSwitchViewTypeface(switchViewTypeface);
-//        builder.setSwitchViewLayout(switchImgPath, switchWidth, switchHeight);
-//        builder.setLogBtnLayout(loginImgPath, logBtnWidth, logBtnHeight, logBtnOffsetY, logBtnOffsetY_B, logBtnOffsetX);
-//        builder.setLogBtnTextView(loginButtonText, loginButtonColor, logBtnTextSize);
-////        builder.setLogBtnTextViewTypeface(logBtnTextViewTypeface);
-//        builder.setLogBtnDisableIfUnChecked(disableBtnIfUnChecked);
-//        builder.setLogBtnLoadingView(loadingView, loadingViewWidth, loadingViewHeight, loadingViewOffsetRight);
-//        builder.setLogBtnLoadingView(loadingView, loadingViewWidth, loadingViewHeight, loadingViewOffsetRight, loadingViewOffsetY);
-//        builder.setSloganView(sloganColor, sloganSize, sloganOffsetY, sloganOffsetY_B, sloganOffsetX);
-////        builder.setSloganViewTypeface(sloganViewTypeface);
-//        builder.setPrivacyLayout(privacyLayoutWidth, privacyOffsetY, privacyOffsetY_B, privacyOffsetX, isUseNormalWebActivity);
-//        builder.setPrivacyCheckBox(unCheckedImgPath, checkedImgPath, privacyState, privacyCheckBoxWidth, privacyCheckBoxHeight);
-//        builder.setPrivacyCheckBox(unCheckedImgPath, checkedImgPath, privacyState, privacyCheckBoxWidth, privacyCheckBoxHeight, privacyCheckBoxOffsetY);
-//        builder.setPrivacyTextView(privacyTextViewTv1, privacyTextViewTv2, privacyTextViewTv3, privacyTextViewTv4);
-//        builder.setPrivacyClauseText(clauseNameOne, clauseUrlOne, clauseNameTwo, clauseUrlTwo, clauseNameThree, clauseUrlThree);
-////        builder.setPrivacyClauseTextStrings(String... privacyClauseTextStrings);
-//        builder.setPrivacyClauseView(baseClauseColor, clauseColor, privacyClauseTextSize);
-////        builder.setPrivacyClauseViewTypeface(privacyClauseBaseTextViewTypeface, privacyClauseTextViewTypeface);
-//        builder.setPrivacyUnCheckedToastText(privacyUnCheckedToastText);
-//        builder.setPrivacyAddFrenchQuotes(privacyAddFrenchQuotes);
-//        builder.setPrivacyTextGravity(privacyTextGravity);
-//
-//        return builder.build();
-//    }
 
     private OneLoginThemeConfig getThemeConfig(JSONObject jsonObject) {
         OneLoginBean b = null;
@@ -297,8 +104,9 @@ public class OneLoginUtils {
 
         builder.setStatusBar(b.statusBarColor, b.navigationBarColor, b.isLightColor)
                 .setAuthNavLayout(b.navColor, b.authNavHeight, b.authNavTransparent, b.authNavGone)
-                .setAuthNavTextView(b.navText, b.navTextColor, b.navTextSize, b.navWebTextNormal, b.navWebText, b.navWebTextColor, b.navWebTextSize)
-                .setAuthNavTextViewTypeface(getTypeface(b.navTextTypefaceName, b.navTextTypefaceBold, b.navTextTypefaceItalic), getTypeface(b.navWebTextTypefaceName, b.navWebTextTypefaceBold, b.navWebTextTypefaceItalic))
+                .setAuthNavTextView(b.navText, b.navTextColor, b.navTextSize, b.navWebTextNormal, b.navWebText, b.navWebTextColor, b.navWebTextSize, b.navTextMargin)
+                .setAuthNavTextViewTypeface(getTypeface(b.navTextTypefaceName, b.navTextTypefaceBold, b.navTextTypefaceItalic),
+                        getTypeface(b.navWebTextTypefaceName, b.navWebTextTypefaceBold, b.navWebTextTypefaceItalic))
                 .setAuthBGImgPath(b.authBGImgPath)
                 .setAuthBgVideoUri(b.authBgVideoUri)
                 .setDialogTheme(b.isDialogTheme, b.dialogWidth, b.dialogHeight, b.dialogX, b.dialogY, b.isDialogBottom, b.isWebViewDialogTheme);
@@ -313,7 +121,7 @@ public class OneLoginUtils {
                 .setSwitchView(b.switchText, b.switchColor, b.switchSize, b.switchHidden, b.switchOffsetY, b.switchOffsetY_B, b.switchOffsetX)
                 .setSwitchViewTypeface(getTypeface(b.switchTypefaceName, b.switchTypefaceBold, b.switchTypefaceItalic))
                 .setSwitchViewLayout(b.switchImgPath, b.switchWidth, b.switchHeight)
-                .setLogBtnLayout(b.logBtnImgPath, b.logBtnWidth, b.logBtnHeight, b.logBtnOffsetY, b.logBtnOffsetY_B, b.logBtnOffsetX)
+                .setLogBtnLayout(b.logBtnImgPath, b.logBtnUncheckedImgPath, b.logBtnWidth, b.logBtnHeight, b.logBtnOffsetY, b.logBtnOffsetY_B, b.logBtnOffsetX)
                 .setLogBtnTextView(b.logBtnText, b.logBtnColor, b.logBtnTextSize)
                 .setLogBtnTextViewTypeface(getTypeface(b.logBtnTextTypefaceName, b.logBtnTextTypefaceBold, b.logBtnTextTypefaceItalic))
                 .setLogBtnDisableIfUnChecked(b.disableBtnIfUnChecked);
@@ -322,10 +130,14 @@ public class OneLoginUtils {
         } else {
             builder.setLogBtnLoadingView(b.loadingView, b.loadingViewWidth, b.loadingViewHeight, b.loadingViewOffsetRight, b.loadingViewOffsetY);
         }
-        builder.setSloganView(b.sloganColor, b.sloganSize, b.sloganOffsetY, b.sloganOffsetY_B, b.sloganOffsetX)
+        builder.setSlogan(b.sloganVisible)
+                .setSloganText(b.sloganText)
+                .setSloganView(b.sloganColor, b.sloganSize, b.sloganOffsetY, b.sloganOffsetY_B, b.sloganOffsetX)
                 .setSloganViewTypeface(getTypeface(b.sloganTypefaceName, b.sloganTypefaceBold, b.sloganTypefaceItalic))
+                .setSloganLayout(b.sloganWidth, b.sloganHeight)
                 .setPrivacyLayout(b.privacyLayoutWidth, b.privacyOffsetY, b.privacyOffsetY_B, b.privacyOffsetX, b.isUseNormalWebActivity)
-                .setPrivacyCheckBox(b.unCheckedImgPath, b.checkedImgPath, b.privacyState, b.privacyCheckBoxWidth, b.privacyCheckBoxHeight, b.privacyCheckBoxOffsetY)
+                .setPrivacyCheckBox(b.unCheckedImgPath, b.checkedImgPath, b.privacyState, b.privacyCheckBoxWidth, b.privacyCheckBoxHeight,
+                        b.privacyCheckBoxOffsetY, b.privacyCheckBoxMarginRight)
                 .setPrivacyTextView(b.privacyTextViewTv1, b.privacyTextViewTv2, b.privacyTextViewTv3, b.privacyTextViewTv4)
                 .setPrivacyClauseText(b.clauseNameOne, b.clauseUrlOne, b.clauseNameTwo, b.clauseUrlTwo, b.clauseNameThree, b.clauseUrlThree)
                 .setPrivacyClauseTextStrings(b.privacyClauseTextStrings)
@@ -334,7 +146,8 @@ public class OneLoginUtils {
                 .setPrivacyUnCheckedToastText(b.privacyUnCheckedToastText)
                 .setPrivacyAddFrenchQuotes(b.privacyAddFrenchQuotes)
                 .setPrivacyTextGravity(b.privacyTextGravity);
-
+        builder.setProtocolShakeStyle(getProtocolShakeStyle(b.protocolShakeStyle))
+                .setLanguageType(getLanguageType(b.languageType));
         return builder.build();
     }
 
@@ -353,6 +166,28 @@ public class OneLoginUtils {
             e.printStackTrace();
         }
         return typeface;
+    }
+
+    private ProtocolShakeStyle getProtocolShakeStyle(int protocolShakeStyleValue) {
+        switch (protocolShakeStyleValue) {
+            case 1:
+                return ProtocolShakeStyle.SHAKE_HORIZONTAL;
+            case 2:
+                return ProtocolShakeStyle.SHAKE_VERTICAL;
+            default:
+                return ProtocolShakeStyle.NONE;
+        }
+    }
+
+    private OLLanguageType getLanguageType(int languageTypeValue) {
+        switch (languageTypeValue) {
+            case 1:
+                return OLLanguageType.TRADITIONAL_CHINESE;
+            case 2:
+                return OLLanguageType.ENGLISH;
+            default:
+                return OLLanguageType.SIMPLIFIED_CHINESE;
+        }
     }
 
     private void addCustomView(Context context, JSONObject widgetList, JSCallback customViewCallback) {
