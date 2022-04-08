@@ -103,17 +103,6 @@
 			console.log("=========== hintBlock =========== ");
 			});
 		},
-		mounted() {
-			Vue.prototype.$customButtonAction = this.customButtonAction;
-			Vue.prototype.$qqLogin = this.qqLogin;
-			Vue.prototype.$weixinLogin = this.weixinLogin;
-			Vue.prototype.$authVCTransitionBlock = this.authVCTransitionBlock;
-			Vue.prototype.$tapAuthBackgroundBlock = this.tapAuthBackgroundBlock;
-			Vue.prototype.$viewLifeCycleBlock = this.viewLifeCycleBlock;
-			Vue.prototype.$clickBackButtonBlock = this.clickBackButtonBlock;
-			Vue.prototype.$clickSwitchButtonBlock = this.clickSwitchButtonBlock;
-			Vue.prototype.$clickCheckboxBlock = this.clickCheckboxBlock;
-		},
 		methods: {
 			initOneLogin() {				
 				//初始化建议在app启动时调用，即App.vue的onLaunch方法中
@@ -825,53 +814,6 @@
 						this.gt_result = JSON.stringify(result.accesscode);
 						console.log(JSON.stringify(result));
 					});
-				}
-			},
-			customButtonAction() {
-				console.log("=========== custom button pressed =========== ");
-			},
-			qqLogin() {
-				console.log("=========== qqLogin =========== ");
-				gtSDKModule.dismissAuthViewController();
-				uni.showToast({
-					icon: "none",
-					title: "qq登录",
-					duration: 2000
-				});
-			},
-			weixinLogin() {
-				console.log("=========== weixinLogin =========== ");
-				gtSDKModule.dismissAuthViewController();
-				uni.showToast({
-					icon: "none",
-					title: "微信登录",
-					duration: 2000
-				});
-			},
-			authVCTransitionBlock() {
-				console.log("=========== authVCTransitionBlock =========== ");
-			},
-			tapAuthBackgroundBlock() {
-				console.log("=========== tapAuthBackgroundBlock =========== ");
-			},
-			viewLifeCycleBlock(viewLifeCycle, animated) {
-				console.log("=========== viewLifeCycle: " + viewLifeCycle + "===========, animated: " + animated);
-				if (viewLifeCycle == 'viewDidLoad') {
-					uni.hideLoading();
-				}
-			},
-			clickBackButtonBlock() {
-				console.log("=========== clickBackButtonBlock =========== ");
-			},
-			clickSwitchButtonBlock() {
-				console.log("=========== clickSwitchButtonBlock =========== ");
-			},
-			clickCheckboxBlock(checked) {
-				console.log("=========== clickCheckboxBlock =========== ");
-				if (checked == 'true') {
-					console.log("=========== checkbox is checked =========== ");
-				} else if (checked == 'false') {
-					console.log("=========== checkbox is unchecked =========== ");
 				}
 			}
 		}
