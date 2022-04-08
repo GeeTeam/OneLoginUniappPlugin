@@ -1,7 +1,7 @@
 {
 	"name": "Geetest-GTOneLoginSDKModule",
 	"id": "Geetest-GTOneLoginSDKModule",
-	"version": "2.3.5.1",
+	"version": "2.7.4",
 	"description": "极验OneLoginSDKHbuilder插件",
 	"_dp_type": "nativeplugin",
 	"_dp_nativeplugin": {
@@ -40,9 +40,7 @@
 				"android.permission.CHANGE_NETWORK_STATE",
 				"android.permission.CHANGE_WIFI_STATE",
 				"android.permission.ACCESS_WIFI_STATE",
-				"android.permission.ACCESS_NETWORK_STATE",
-				"android.permission.READ_PHONE_STATE",
-				"android.permission.WRITE_SETTINGS"
+				"android.permission.ACCESS_NETWORK_STATE"
 			]
 		}
 	}
