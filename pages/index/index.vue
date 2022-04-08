@@ -118,7 +118,7 @@
 				console.log("=========== load plugin success ======= ");
 				
 				let platform = uni.getSystemInfoSync().platform;
-				var appid = 'b41a959b5cac4dd1277183e074630945'
+				var appid = 'b41a959b5cac4dd1277183e074630945';
 				
 				console.log("=========== platform is: ============== " + platform);
 				console.log("=========== appid is: ================= " + appid);
