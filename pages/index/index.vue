@@ -68,12 +68,7 @@
 				console.log("=========== load plugin success ======= ");
 				
 				let platform = uni.getSystemInfoSync().platform;
-				var appid;
-				if (platform == 'android') {
-					appid = 'e4fcb3086ca25bbe2da08a09d75c70e8'; //appID与包名绑定
-				} else if (platform == 'ios') {
-					appid = 'b41a959b5cac4dd1277183e074630945'; //appID与bundleID绑定
-				}
+				var appid = 'b41a959b5cac4dd1277183e074630945'
 				
 				console.log("=========== platform is: ============== " + platform);
 				console.log("=========== appid is: ================= " + appid);
@@ -87,7 +82,9 @@
 					gtSDKModule.setLogEnabled(true);
 					console.log("=========== set log enabled =========== ");
 					
-					gtSDKModule.register({'appid': appid, 'timeout': 8000}, (result)=> {
+					//设置请求超时时间，参数1代表预取号超时时间，参数2代表取号超时时间
+					gtSDKModule.setRequestTimeout(8000, 8000);
+					gtSDKModule.register({'appid': appid}, (result)=> {
 						uni.hideLoading();
 						this.gt_code = JSON.stringify(result.jscode);
 						this.gt_result = JSON.stringify(result.jsresult);
@@ -118,13 +115,7 @@
 				}
 				
 				let platform = uni.getSystemInfoSync().platform;
-				var appid;
-				if (platform == 'android') {
-					appid = 'e18f5f45da5614928f4af0410e886e0a'; //appID与包名绑定
-				} else if (platform == 'ios') {
-					appid = '3996159873d7ccc36f25803b88dda97a'; //appID与bundleID绑定
-				}
-				
+				var appid = '3996159873d7ccc36f25803b88dda97a';
 				console.log("=========== appid is: =========== " + appid);
 				
 				if (platform == 'android') {
@@ -177,28 +168,30 @@
 					let themeConfig = {};
 					let widgetConfig = {};
 					switch(themeStyle) {
-						case 0:
+						case 0: // 底部浮窗
 							themeConfig = {
 								isDialogTheme:true, dialogWidth:width, dialogHeight:500, dialogX:0, dialogY:0, isDialogBottom:true, isWebViewDialogTheme:true,
 								authBGImgPath:'gt_one_login_bg',
-								statusBarColor:0, navigationBarColor:0, isLightColor:false,
 								navColor:0xFF3973FF, authNavHeight:49, authNavTransparent:true, authNavGone:false,
-								navText:'一键登录', navTextColor:0xFFFFFFFF, navTextSize:17, navWebTextNormal:false, navWebText:'服务条款', navWebTextColor:0xFF000000, navWebTextSize:17,
+								navText:'一键登录', navTextColor:0xFFFFFFFF, navTextSize:17, navTextMargin:48,
+								navWebTextNormal:false, navWebText:'服务条款', navWebTextColor:0xFF000000, navWebTextSize:17,
 								returnImgPath:'gt_one_login_ic_chevron_left_black', returnImgWidth:40, returnImgHeight:40, returnImgHidden:false, returnImgOffsetX:8,
 								logoImgPath:'gt_one_login_logo', logoWidth:71, logoHeight:71, logoHidden:false, logoOffsetY:120, logoOffsetY_B:0, logoOffsetX:0,
 								sloganColor:0xFFA8A8A8, sloganSize:10, sloganOffsetY:350, sloganOffsetY_B:0, sloganOffsetX:0,
 								numberColor:0xFF3D424C, numberSize:24, numberOffsetY:180, numberOffsetY_B:0, numberOffsetX:0,
 								switchText:'切换账号', switchColor:0xFF3973FF, switchSize:14, switchHidden:false, switchOffsetY:230, switchOffsetY_B:0, switchOffsetX:0,								
-								logBtnImgPath:'gt_one_login_btn_normal', logBtnWidth:290, logBtnHeight:45, logBtnOffsetY:290, logBtnOffsetY_B:0, logBtnOffsetX:0,
+								logBtnImgPath:'gt_one_login_btn', logBtnUncheckedImgPath:'gt_one_login_btn_unchecked',
+								logBtnWidth:290, logBtnHeight:45, logBtnOffsetY:290, logBtnOffsetY_B:0, logBtnOffsetX:0,
 								logBtnText:'一键登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:18,
 								loadingView:'umcsdk_load_dot_white', loadingViewWidth:20, loadingViewHeight:20, loadingViewOffsetRight:12,
-								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: true, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
+								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: false, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
 								privacyLayoutWidth:256, privacyOffsetY:0, privacyOffsetY_B:18, privacyOffsetX:0, isUseNormalWebActivity:true,
 								baseClauseColor:0xFFA8A8A8, clauseColor:0xFF3973FF, privacyClauseTextSize:10, 
-								privacyTextViewTv1:'登录即同意', privacyTextViewTv2:'和', privacyTextViewTv3:'、', privacyTextViewTv4:'并使用本机号码登录'
+								privacyTextViewTv1:'登录即同意', privacyTextViewTv2:'和', privacyTextViewTv3:'、', privacyTextViewTv4:'并使用本机号码登录',
+								clauseNameOne:'应用自定义服务条款一', clauseUrlOne:'https://docs.geetest.com/onelogin/deploy/android' // 使用此方式自定义服务条款的，最多只能自定义两个，留空的一个native SDK会自动填充对应运营商的服务条款
 							}
 							break;
-						case 1:
+						case 1: // 居中弹窗
 							themeConfig = {
 								isDialogTheme:true, dialogWidth:popWidth, dialogHeight:popHeight, dialogX:0, dialogY:0, isDialogBottom:false, isWebViewDialogTheme:true,
 								returnImgPath:'gt_one_login_ic_chevron_left_black', returnImgWidth:40, returnImgHeight:40, returnImgHidden:false, returnImgOffsetX:8,
@@ -206,29 +199,31 @@
 								sloganColor:0xFFA8A8A8, sloganSize:10, sloganOffsetY:270, sloganOffsetY_B:0, sloganOffsetX:0,
 								numberColor:0xFF3D424C, numberSize:24, numberOffsetY:125, numberOffsetY_B:0, numberOffsetX:0,
 								switchText:'切换账号', switchColor:0xFF3973FF, switchSize:14, switchHidden:false, switchOffsetY:165, switchOffsetY_B:0, switchOffsetX:0,								
-								logBtnImgPath:'gt_one_login_btn_normal', logBtnWidth:268, logBtnHeight:45, logBtnOffsetY:220, logBtnOffsetY_B:0, logBtnOffsetX:0,
+								logBtnImgPath:'gt_one_login_btn', logBtnUncheckedImgPath:'gt_one_login_btn_unchecked',
+								logBtnWidth:268, logBtnHeight:45, logBtnOffsetY:220, logBtnOffsetY_B:0, logBtnOffsetX:0,
 								logBtnText:'一键登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:18,
 								loadingView:'umcsdk_load_dot_white', loadingViewWidth:20, loadingViewHeight:20, loadingViewOffsetRight:12,
-								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: true, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
+								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: false, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
 								privacyLayoutWidth:256, privacyOffsetY:0, privacyOffsetY_B:1, privacyOffsetX:0, isUseNormalWebActivity:true,
 							}
 							break;
-						case 2:
+						case 2: // 全屏模式
 							themeConfig = {
 								statusBarColor:0xffffffff, navigationBarColor:0xffffffff, isLightColor:true,
 								returnImgPath:'gt_one_login_ic_chevron_left_black', returnImgWidth:40, returnImgHeight:40, returnImgHidden:false, returnImgOffsetX:0,
-								logBtnImgPath:'gt_one_login_btn_normal', logBtnWidth:290, logBtnHeight:45, logBtnOffsetY:310, logBtnOffsetY_B:0, logBtnOffsetX:0,
-								logBtnText:'一键登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:18,
+								logBtnImgPath:'gt_one_login_btn', logBtnUncheckedImgPath:'gt_one_login_btn_unchecked',
+								logBtnWidth:290, logBtnHeight:45, logBtnOffsetY:310, logBtnOffsetY_B:0, logBtnOffsetX:0,
+								logBtnText:'登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:18,
 								loadingView:'umcsdk_load_dot_white', loadingViewWidth:20, loadingViewHeight:20, loadingViewOffsetRight:12,
-								clauseNameOne:'自定义服务条款1', clauseUrlOne:'https://docs.geetest.com/onelogin/deploy/android', clauseNameTwo:'自定义服务条款2', clauseUrlTwo:'https://docs.geetest.com/onelogin/changelog/android', clauseNameThree:"", clauseUrlThree:"",
 								privacyClauseTextStrings:["登录即同意", "应用自定义服务条款一", "https://docs.geetest.com/onelogin/deploy/android", "",
 									"和", "应用自定义服务条款二", "https://docs.geetest.com/onelogin/changelog/android", "",
 									"和", "应用自定义服务条款三", "https://docs.geetest.com/onelogin/help/tech", "",
-									"和", "中国移动认证服务条款", "http://wap.cmpassport.com/resources/html/contract.html", ""]
+									"和", "", "", ""], // 一组留空，native SDK会自动填充对应运营商的服务条款
+								protocolShakeStyle:1, languageType:0
 							}
 							break;
-						case 3:
-							//设置当前页面为横屏
+						case 3: // 横屏模式
+							//需要先设置当前页面为横屏
 							themeConfig = {
 								authBGImgPath:'gt_one_login_bg',
 								isDialogTheme:false, dialogWidth:300, dialogHeight:500, dialogX:0, dialogY:0, isDialogBottom:false, isWebViewDialogTheme:false,
@@ -240,11 +235,12 @@
 								sloganColor:0xFFA8A8A8, sloganSize:10, sloganOffsetY:226, sloganOffsetY_B:0, sloganOffsetX:0,
 								numberColor:0xFF3D424C, numberSize:24, numberOffsetY:84, numberOffsetY_B:0, numberOffsetX:0,
 								switchText:'切换账号', switchColor:0xFF3973FF, switchSize:14, switchHidden:false, switchOffsetY:128, switchOffsetY_B:0, switchOffsetX:0,								
-								logBtnImgPath:'gt_one_login_btn_normal', logBtnWidth:268, logBtnHeight:36, logBtnOffsetY:169, logBtnOffsetY_B:0, logBtnOffsetX:0,
+								logBtnImgPath:'gt_one_login_btn', logBtnUncheckedImgPath:'gt_one_login_btn_unchecked',
+								logBtnWidth:268, logBtnHeight:36, logBtnOffsetY:169, logBtnOffsetY_B:0, logBtnOffsetX:0,
 								logBtnText:'一键登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:15,
 								loadingView:'umcsdk_load_dot_white', loadingViewWidth:20, loadingViewHeight:20, loadingViewOffsetRight:12,
-								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: true, privacyCheckBoxWidth:9, privacyCheckBoxHeight:9,
-								privacyLayoutWidth:512, privacyOffsetY:0, privacyOffsetY_B:1, privacyOffsetX:0, isUseNormalWebActivity:true,
+								unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: false, privacyCheckBoxWidth:9, privacyCheckBoxHeight:9,
+								privacyLayoutWidth:-2, privacyOffsetY:0, privacyOffsetY_B:1, privacyOffsetX:0, isUseNormalWebActivity:true,
 								baseClauseColor:0xFFA8A8A8, clauseColor:0xFF3973FF, privacyClauseTextSize:10, 
 								privacyTextViewTv1:'登录即同意', privacyTextViewTv2:'和', privacyTextViewTv3:'、', privacyTextViewTv4:'并使用本机号码登录'
 							}
@@ -579,10 +575,11 @@
 						sloganColor:0xFFA8A8A8, sloganSize:10, sloganOffsetY:270, sloganOffsetY_B:0, sloganOffsetX:0,
 						numberColor:0xFF3D424C, numberSize:24, numberOffsetY:125, numberOffsetY_B:0, numberOffsetX:0,
 						switchText:'切换账号', switchColor:0xFF3973FF, switchSize:14, switchHidden:false, switchOffsetY:165, switchOffsetY_B:0, switchOffsetX:0,								
-						logBtnImgPath:'gt_one_login_btn_normal', logBtnWidth:268, logBtnHeight:45, logBtnOffsetY:220, logBtnOffsetY_B:0, logBtnOffsetX:0,
+						logBtnImgPath:'gt_one_login_btn', logBtnUncheckedImgPath:'gt_one_login_btn_unchecked',
+						logBtnWidth:268, logBtnHeight:45, logBtnOffsetY:220, logBtnOffsetY_B:0, logBtnOffsetX:0,
 						logBtnText:'一键登录', logBtnColor:0xFFFFFFFF, logBtnTextSize:18,
 						loadingView:'umcsdk_load_dot_white', loadingViewWidth:20, loadingViewHeight:20, loadingViewOffsetRight:12,
-						unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: true, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
+						unCheckedImgPath:'gt_one_login_unchecked', checkedImgPath:'gt_one_login_checked', privacyState: false, privacyCheckBoxWidth:12, privacyCheckBoxHeight:12,
 						privacyLayoutWidth:256, privacyOffsetY:0, privacyOffsetY_B:1, privacyOffsetX:0, isUseNormalWebActivity:true,
 					}
 					//一键登录
