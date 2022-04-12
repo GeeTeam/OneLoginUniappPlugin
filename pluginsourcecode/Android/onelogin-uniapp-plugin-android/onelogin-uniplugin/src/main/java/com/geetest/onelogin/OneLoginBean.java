@@ -377,7 +377,7 @@ public class OneLoginBean {
     /**
      * 切换账号文字
      */
-    public String switchText = "切换账号";
+    public String switchText = "";
     /**
      * 切换账号大小
      */
