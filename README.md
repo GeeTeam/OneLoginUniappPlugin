@@ -437,12 +437,12 @@ public int dialogWidth = 300;
 public int dialogHeight = 500;
 
 /**
- * 授权页弹窗X偏移量（以屏幕中 ⼼为原点）
+ * 授权页弹窗X偏移量（以屏幕中心为原点）
  */
 public int dialogX = 0;
 
 /**
- * 授权页弹窗Y偏移量（以屏幕中 ⼼为原点）
+ * 授权页弹窗Y偏移量（以屏幕中心为原点）
  */
 public int dialogY = 0;
 
@@ -655,7 +655,7 @@ public int loadingViewOffsetY = 0;
 /**
  * 切换账号文字
  */
-public String switchText = "切换账号";
+public String switchText = "";
 /**
  * 切换账号大小
  */
