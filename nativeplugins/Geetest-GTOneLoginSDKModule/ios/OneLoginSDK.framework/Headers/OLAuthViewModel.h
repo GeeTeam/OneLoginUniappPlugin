@@ -96,6 +96,20 @@ typedef struct OLRect {
     CGSize size;
 } OLRect;
 
+CG_INLINE OLRect OLRectMake(CGFloat portraitTopYOffset, CGFloat portraitCenterXOffset, CGFloat portraitLeftXOffset, CGFloat landscapeTopYOffset, CGFloat landscapeCenterXOffset, CGFloat landscapeLeftXOffset, CGSize size) {
+    OLRect rect;
+    rect.portraitTopYOffset = portraitTopYOffset;
+    rect.portraitCenterXOffset = portraitCenterXOffset;
+    rect.portraitLeftXOffset = portraitLeftXOffset;
+    rect.landscapeTopYOffset = landscapeTopYOffset;
+    rect.landscapeCenterXOffset = landscapeCenterXOffset;
+    rect.landscapeLeftXOffset = landscapeLeftXOffset;
+    rect.size = size;
+    return rect;
+}
+
+CG_EXTERN const OLRect OLRectZero;
+
 /**
  * @abstract 弹窗模式时支持的动画类型
  */
@@ -104,6 +118,16 @@ typedef NS_ENUM(NSInteger, OLAuthPopupAnimationStyle) {
     OLAuthPopupAnimationStyleFlipHorizontal,
     OLAuthPopupAnimationStyleCrossDissolve,
     OLAuthPopupAnimationStyleCustom
+};
+
+/**
+ * @abstract 授权弹窗支持的动画类型
+ */
+typedef NS_ENUM(NSInteger, OLAuthDialogAnimationStyle) {
+    OLAuthDialogAnimationStyleCoverVertical = 0,
+    OLAuthDialogAnimationStyleFlipHorizontal,
+    OLAuthDialogAnimationStyleCrossDissolve,
+    OLAuthDialogAnimationStyleCustom
 };
 
 /**
@@ -131,6 +155,11 @@ typedef void(^OLAuthViewLifeCycleBlock)(NSString *viewLifeCycle, BOOL animated);
  * 点击授权页面授权按钮的回调，用于监听授权页面登录按钮的点击
  */
 typedef void(^OLClickAuthButtonBlock)(void);
+
+/**
+ * 未勾选隐私条款时点击授权页面登录按钮的回调, 可用于自定义授权弹窗. 当返回 YES 时, 可以在 block 中添加自定义操作
+ */
+typedef BOOL(^OLCustomDisabledAuthActionBlock)(void);
 
 /**
  * 是否自定义授权页面登录按钮点击事件，用于完全接管授权页面点击事件，当返回 YES 时，可以在 block 中添加自定义操作
@@ -163,6 +192,16 @@ typedef void(^OLNotCheckProtocolHintBlock)(void);
 typedef void(^OLTapAuthBackgroundBlock)(void);
 
 /**
+ * 点击授权弹窗背景的回调
+ */
+typedef void(^OLTapAuthDialogBackgroundBlock)(void);
+
+/**
+ * 点击授权弹窗不同意按钮的回调
+ */
+typedef void(^OLClickAuthDialogDisagreeBtnBlock)(void);
+
+/**
  * @abstract 授权页面旋转时的回调，可在该回调中修改自定义视图的frame，以适应新的布局
  */
 typedef void(^OLAuthVCTransitionBlock)(CGSize size, id<UIViewControllerTransitionCoordinator> coordinator, UIView *customAreaView);
@@ -177,7 +216,7 @@ typedef void(^OLAuthVCTransitionBlock)(CGSize size, id<UIViewControllerTransitio
  * authAgreementView 为 authCheckbox 和 authProtocolView 的父视图
  *
  */
-typedef void(^OLAuthVCAutoLayoutBlock)(UIView *authView, UIView *authContentView, UIView *authBackgroundImageView, UIView *authNavigationView, UIView *authNavigationContainerView, UIView *authBackButton, UIView *authNavigationTitleView, UIView *authLogoView, UIView *authPhoneView, UIView *authSwitchButton, UIView *authLoginButton, UIView *authSloganView, UIView *authAgreementView, UIView *authCheckbox, UIView *authProtocolView, UIView *authClosePopupButton);
+typedef void(^OLAuthVCAutoLayoutBlock)(UIView *authView, UIView *authContentView, UIView * _Nullable authBackgroundImageView, UIView *authNavigationView, UIView *authNavigationContainerView, UIView *authBackButton, UIView *authNavigationTitleView, UIView *authLogoView, UIView *authPhoneView, UIView *authSwitchButton, UIView *authLoginButton, UIView *authSloganView, UIView *authAgreementView, UIView *authCheckbox, UIView *authProtocolView, UIView * _Nullable authClosePopupButton);
 
 /**
  * @abstract 进入授权页面的方式，默认为 modal 方式，即 present 到授权页面，从授权页面进入服务条款页面的方式与此保持一致
@@ -211,9 +250,9 @@ typedef NS_ENUM(NSInteger, OLNotCheckProtocolShakeStyle) {
 #pragma mark - Navigation/导航
 
 /**
- 导航栏标题距离屏幕左边的间距。默认为36，隐私条款导航栏保持一致。
+ 导航栏标题距离屏幕左右两边的间距。默认为36，隐私条款导航栏保持一致。
  */
-@property (nonatomic, assign) double navTextPadding;
+@property (nonatomic, assign) double navTextMargin;
 /**
  授权页导航的标题。默认为空字符串。
  */
@@ -361,6 +400,11 @@ typedef NS_ENUM(NSInteger, OLNotCheckProtocolShakeStyle) {
  * 点击授权页面授权按钮的回调，用于监听授权页面登录按钮的点击
  */
 @property (nullable, nonatomic, copy) OLClickAuthButtonBlock clickAuthButtonBlock;
+
+/**
+ * 未勾选隐私条款时点击授权页面登录按钮的回调, 可用于自定义授权弹窗. 当返回 YES 时, 可以在 block 中添加自定义操作
+ */
+@property (nullable, nonatomic, copy) OLCustomDisabledAuthActionBlock customDisabledAuthActionBlock;
 
 /**
  * 自定义授权页面登录按钮点击事件，用于完全接管授权页面点击事件，当返回 YES 时，可以在 block 中添加自定义操作
@@ -611,6 +655,124 @@ typedef NS_ENUM(NSInteger, OLNotCheckProtocolShakeStyle) {
  * 弹窗蒙板视图
  */
 @property (nonatomic, strong, nullable) UIView *popupMaskView;
+
+#pragma mark - Auth Dialog/授权弹窗
+
+/**
+ * 未勾选同意协议时是否弹出授权弹窗
+ */
+@property (nonatomic, assign) BOOL willAuthDialogDisplay;
+
+/**
+ * 点击授权弹窗外是否关闭授权弹窗
+ */
+@property (nonatomic, assign) BOOL canCloseAuthDialogFromTapGesture;
+
+/**
+ * 授权弹窗宽、高、起始点位置
+ */
+@property (nonatomic, assign) OLRect authDialogRect;
+
+/**
+ * 授权弹窗是否显示在屏幕下方
+ */
+@property (nonatomic, assign) BOOL isAuthDialogBottom;
+
+/**
+ * 授权弹窗背景颜色
+ */
+@property (nullable, nonatomic, strong) UIColor *authDialogBgColor;
+
+/**
+ * 授权弹窗标题文字
+ */
+@property (nullable, nonatomic, strong) NSString *authDialogTitleText;
+
+/**
+ * 授权弹窗标题颜色
+ */
+@property (nullable, nonatomic, strong) UIColor *authDialogTitleColor;
+
+/**
+ * 授权弹窗字体样式及大小
+ */
+@property (nullable, nonatomic, strong) UIFont *authDialogTitleFont;
+
+/**
+ * 授权弹窗富文本字体样式及大小
+ */
+@property (nullable, nonatomic, strong) UIFont *authDialogContentFont;
+
+/**
+ * 授权弹窗不同意按钮文字
+ */
+@property (nullable, nonatomic, strong) NSString *authDialogDisagreeBtnText;
+
+/**
+ * 授权弹窗不同意按钮样式及大小
+ */
+@property (nullable, nonatomic, strong) UIFont *authDialogDisagreeBtnFont;
+
+/**
+ * 授权弹窗不同意按钮文字颜色
+ */
+@property (nullable, nonatomic, strong) UIColor *authDialogDisagreeBtnColor;
+
+/**
+ * 授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色。
+ */
+@property (nullable, nonatomic, strong) NSArray<UIImage *> *authDialogDisagreeBtnImages;
+
+/**
+ * 授权弹窗同意按钮文字
+ */
+@property (nullable, nonatomic, strong) NSString *authDialogAgreeBtnText;
+
+/**
+ * 授权弹窗同意按钮样式及大小
+ */
+@property (nullable, nonatomic, strong) UIFont *authDialogAgreeBtnFont;
+
+/**
+ * 授权弹窗同意按钮文字颜色
+ */
+@property (nullable, nonatomic, strong) UIColor *authDialogAgreeBtnColor;
+
+/**
+ * 授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
+ */
+@property (nullable, nonatomic, strong) NSArray<UIImage *> *authDialogAgreeBtnImages;
+
+/**
+ * 授权弹窗圆角，默认为10。
+ */
+@property (nonatomic, assign) CGFloat authDialogCornerRadius;
+
+/**
+ * 当只需要设置授权弹窗的部分圆角时，通过 authDialogCornerRadius 设置圆角大小，通过 authDialogRectCorners 设置需要设置圆角的位置。
+ * authDialogRectCorners 数组元素不超过四个，超过四个时，只取前四个。比如，要设置左上和右上为圆角，则传值：@[@(UIRectCornerTopLeft), @(UIRectCornerTopRight)]
+ */
+@property (nonatomic, strong) NSArray<NSNumber *> *authDialogRectCorners;
+
+/**
+ * 授权弹窗动画类型，当authDialogAnimationStyle为OLAuthDialogAnimationStyleCustom时，动画为用户自定义，用户需要传一个CATransition对象来设置动画
+ */
+@property (nonatomic, assign) OLAuthDialogAnimationStyle authDialogAnimationStyle;
+
+/**
+ * 授权弹窗自定义动画
+ */
+@property (nonatomic, strong) CAAnimation *authDialogTransitionAnimation;
+
+/**
+ * 点击授权弹窗背景关闭授权弹窗时的回调
+ */
+@property (nullable, nonatomic, copy) OLTapAuthDialogBackgroundBlock tapAuthDialogBackgroundBlock;
+
+/**
+ * 点击授权弹窗不同意按钮时的回调
+ */
+@property (nullable, nonatomic, copy) OLClickAuthDialogDisagreeBtnBlock clickAuthDialogDisagreeBtnBlock;
 
 #pragma mark - Loading
 

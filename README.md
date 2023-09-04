@@ -867,6 +867,8 @@ public int protocolShakeStyle = 0;
  * 0：中文简体 1：中文繁体 2：英文
  */
 public int languageType = 0;
+
+
 ```
 
 2. 授权页自定义 UI 配置 CustomView
@@ -1304,6 +1306,25 @@ let viewModel = {
 	userInterfaceStyle: 0,
 	languageType: 1,
 	shakeStyle: 1,
+	willAuthDialogDisplay:true,
+	canCloseAuthDialogFromTapGesture:true,
+	authDialogRect:[],
+	isAuthDialogBottom:false,
+	authDialogBgColor:'#85cb5d',
+	authDialogTitleText:'授权弹窗标题',
+	authDialogTitleColor:'#3d78cc',
+	authDialogTitleFont:'20',
+	authDialogContentFont:'13',
+	authDialogDisagreeBtnText:'不同意',
+	authDialogDisagreeBtnFont:'16',
+	authDialogDisagreeBtnColor:'#3c4d21',
+	authDialogDisagreeBtnImages:[],
+	authDialogAgreeBtnText:'同意',
+	authDialogAgreeBtnFont:'18',
+	authDialogAgreeBtnColor:'#1dbaac',
+	authDialogAgreeBtnImages:[],
+	authDialogCornerRadius:20,
+	authDialogRectCorners:[1,2],
 	widgets: [{
 		type: "UIButton", 
 		UIButtonType: 0, 
@@ -1426,6 +1447,25 @@ let viewModel = {
 | languageType | 多语言配置，支持中文简体，中文繁体，英文
 | hasQuotationMarkOnCarrierProtocol | 是否在运营商协议名称上加书名号《》
 | supportedInterfaceOrientations | 授权页面支持的横竖屏方向
+| willAuthDialogDisplay | 未勾选同意协议时是否弹出授权弹窗
+| canCloseAuthDialogFromTapGesture | 点击授权弹窗外是否关闭授权弹窗
+| authDialogRect | 授权弹窗宽、高、起始点位置
+| isAuthDialogBottom | 授权弹窗是否显示在屏幕下方
+| authDialogBgColor | 授权弹窗背景颜色
+| authDialogTitleText | 授权弹窗标题文字
+| authDialogTitleColor | 授权弹窗标题颜色
+| authDialogTitleFont | 授权弹窗字体样式及大小
+| authDialogContentFont | 授权弹窗富文本字体样式及大小
+| authDialogDisagreeBtnText | 授权弹窗不同意按钮文字 
+| authDialogDisagreeBtnFont | 授权弹窗不同意按钮样式及大小
+| authDialogDisagreeBtnColor | 授权弹窗不同意按钮文字颜色
+| authDialogDisagreeBtnImages| 授权弹窗不同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为灰色, 高亮状态为深灰色
+| authDialogAgreeBtnText | 授权弹窗同意按钮文字
+| authDialogAgreeBtnFont | 授权弹窗同意按钮样式及大小
+| authDialogAgreeBtnColor | 授权弹窗同意按钮文字颜色
+| authDialogAgreeBtnImages| 授权弹窗同意按钮的背景图片, @[正常状态的背景图片, 高亮状态的背景图片]。默认正常状态为蓝色纯色, 高亮状态为灰蓝色。
+| authDialogCornerRadius | 授权弹窗圆角，默认为10
+| authDialogRectCorners | 当只需要设置授权弹窗的部分圆角时，通过 authDialogCornerRadius 设置圆角大小，通过 authDialogRectCorners 设置需要设置圆角的位置, <br>1 -> `UIRectCornerTopLeft`<br>2 -> `UIRectCornerTopRight`<br>3 -> `UIRectCornerBottomLeft`<br>4 -> `UIRectCornerBottomRight`
 | widgets | 自定义控件，支持自定义 UIButton、UILabel、UIView、UIImageView，具体自定义方法请参考下面代码
 
 ```js
@@ -1539,6 +1579,17 @@ typedef struct OLRect {
 
 ```js
 var globalEvent = uni.requireNativePlugin('globalEvent');
+globalEvent.addEventListener('tapAuthDialogBackgroundBlock',function(e) {
+	console.log("=========== tap AuthDialog background =========== ");
+});
+			globalEvent.addEventListener('clickAuthDialogDisagreeBtnBlock',function(e) {
+	console.log("=========== click AuthDialog disagreeButton =========== ");
+});
+// 自定义授权弹窗
+globalEvent.addEventListener('customDisabledAuthActionBlock',function(e){
+// 模拟授权弹窗点击同意按钮，可调用 gtSDKModule.startRequestToken() 方法
+// console.log("=========== custom disabledAuth action ===========");
+});
 globalEvent.addEventListener('customButtonAction',function(e) {
 	console.log("=========== custom button pressed =========== ");
 });
@@ -1619,6 +1670,12 @@ gtSDKModule.setLogEnabled(true);
 ```js
 let sdkVersion = gtSDKModule.sdkVersion();
 console.log("=========== sdkVersion: =========== " + sdkVersion);
+```
+
+### 开始取号
+
+```
+gtSDKModule.startRequestToken()
 ```
 
 **返回参数描述**

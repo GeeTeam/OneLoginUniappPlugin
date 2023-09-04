@@ -41,6 +41,17 @@
 			}
 		},
 		onLoad() {
+			globalEvent.addEventListener('tapAuthDialogBackgroundBlock',function(e) {
+				console.log("=========== tap AuthDialog background =========== ");
+			});
+			globalEvent.addEventListener('clickAuthDialogDisagreeBtnBlock',function(e) {
+				console.log("=========== click AuthDialog disagreeButton =========== ");
+			});
+			// 自定义授权弹窗
+			globalEvent.addEventListener('customDisabledAuthActionBlock',function(e){
+				// 模拟授权弹窗点击同意按钮，可调用 gtSDKModule.startRequestToken() 方法
+				// console.log("=========== custom disabledAuth action ===========");
+			});
 			globalEvent.addEventListener('customButtonAction',function(e) {
 				console.log("=========== custom button pressed =========== ");
 			});
@@ -524,6 +535,27 @@
 						userInterfaceStyle: 0,
 						languageType: 1,
 						shakeStyle: 1,
+						willAuthDialogDisplay:true,
+						canCloseAuthDialogFromTapGesture:true,
+						authDialogRect:[],
+						isAuthDialogBottom:false,
+						authDialogBgColor:'#85cb5d',
+						authDialogTitleText:'授权弹窗标题',
+						authDialogTitleColor:'#3d78cc',
+						authDialogTitleFont:'20',
+						authDialogContentFont:'13',
+						authDialogDisagreeBtnText:'不同意',
+						authDialogDisagreeBtnFont:'16',
+						authDialogDisagreeBtnColor:'#3c4d21',
+						authDialogDisagreeBtnImages:[],
+						authDialogAgreeBtnText:'同意',
+						authDialogAgreeBtnFont:'18',
+						authDialogAgreeBtnColor:'#1dbaac',
+						authDialogAgreeBtnImages:[],
+						authDialogCornerRadius:20,
+						authDialogRectCorners:[1,2],
+						
+						
 						widgets: [{
 							type: "UIButton", 
 							UIButtonType: 0, 
@@ -580,7 +612,10 @@
 						clickSwitchButtonBlock: 'clickSwitchButtonBlock',
 						clickCheckboxBlock: 'clickCheckboxBlock',
 						clickAuthButtonBlock: 'clickAuthButtonBlock',
-						hintBlock: 'hintBlock'
+						hintBlock: 'hintBlock',
+						tapAuthDialogBackgroundBlock:'tapAuthDialogBackgroundBlock',
+						clickAuthDialogDisagreeBtnBlock:'clickAuthDialogDisagreeBtnBlock',
+						// customDisabledAuthActionBlock:'customDisabledAuthActionBlock'
 					}
 					
 					//一键登录

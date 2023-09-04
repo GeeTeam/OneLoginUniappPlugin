@@ -7,6 +7,7 @@
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
+        "runmode" : "liberate",
         "usingComponents" : true,
         "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
@@ -48,7 +49,10 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false,
+                "validArchitectures" : [ "arm64", "arm64e", "armv7", "armv7s" ]
+            },
             /* SDK配置 */
             "sdkConfigs" : {
                 "ad" : {}
