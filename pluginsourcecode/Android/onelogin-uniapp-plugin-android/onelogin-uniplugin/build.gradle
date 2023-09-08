@@ -77,7 +77,7 @@ dependencies {
 
     compileOnly fileTree(dir: '../app/libs', include: ['uniapp-v8-release.aar'])
 
-    implementation 'com.alibaba:fastjson:1.1.71.android'
+    implementation 'com.alibaba:fastjson:1.2.75'
 
     implementation 'com.geetest.android:onelogin:2.7.4'
 }

@@ -102,9 +102,9 @@ public class OneLoginUtils {
         }
         OneLoginThemeConfig.Builder builder = new OneLoginThemeConfig.Builder();
 
-        builder.setStatusBar(b.statusBarColor, b.navigationBarColor, b.isLightColor)
-                .setAuthNavLayout(b.navColor, b.authNavHeight, b.authNavTransparent, b.authNavGone)
-                .setAuthNavTextView(b.navText, b.navTextColor, b.navTextSize, b.navWebTextNormal, b.navWebText, b.navWebTextColor, b.navWebTextSize, b.navTextMargin)
+        builder.setStatusBar(ColorTools.getColor(b.statusBarColor), ColorTools.getColor(b.navigationBarColor), b.isLightColor)
+                .setAuthNavLayout(ColorTools.getColor(b.navColor), b.authNavHeight, b.authNavTransparent, b.authNavGone)
+                .setAuthNavTextView(b.navText, ColorTools.getColor(b.navTextColor), b.navTextSize, b.navWebTextNormal, b.navWebText, ColorTools.getColor(b.navWebTextColor), b.navWebTextSize, b.navTextMargin)
                 .setAuthNavTextViewTypeface(getTypeface(b.navTextTypefaceName, b.navTextTypefaceBold, b.navTextTypefaceItalic),
                         getTypeface(b.navWebTextTypefaceName, b.navWebTextTypefaceBold, b.navWebTextTypefaceItalic))
                 .setAuthBGImgPath(b.authBGImgPath)
@@ -116,13 +116,13 @@ public class OneLoginUtils {
             builder.setAuthNavReturnImgView(b.returnImgPath, b.returnImgWidth, b.returnImgHeight, b.returnImgHidden, b.returnImgOffsetX, b.returnImgOffsetY);
         }
         builder.setLogoImgView(b.logoImgPath, b.logoWidth, b.logoHeight, b.logoHidden, b.logoOffsetY, b.logoOffsetY_B, b.logoOffsetX)
-                .setNumberView(b.numberColor, b.numberSize, b.numberOffsetY, b.numberOffsetY_B, b.numberOffsetX)
+                .setNumberView(ColorTools.getColor(b.numberColor), b.numberSize, b.numberOffsetY, b.numberOffsetY_B, b.numberOffsetX)
                 .setNumberViewTypeface(getTypeface(b.numberTypefaceName, b.numberTypefaceBold, b.numberTypefaceItalic))
-                .setSwitchView(b.switchText, b.switchColor, b.switchSize, b.switchHidden, b.switchOffsetY, b.switchOffsetY_B, b.switchOffsetX)
+                .setSwitchView(b.switchText, ColorTools.getColor(b.switchColor), b.switchSize, b.switchHidden, b.switchOffsetY, b.switchOffsetY_B, b.switchOffsetX)
                 .setSwitchViewTypeface(getTypeface(b.switchTypefaceName, b.switchTypefaceBold, b.switchTypefaceItalic))
                 .setSwitchViewLayout(b.switchImgPath, b.switchWidth, b.switchHeight)
                 .setLogBtnLayout(b.logBtnImgPath, b.logBtnUncheckedImgPath, b.logBtnWidth, b.logBtnHeight, b.logBtnOffsetY, b.logBtnOffsetY_B, b.logBtnOffsetX)
-                .setLogBtnTextView(b.logBtnText, b.logBtnColor, b.logBtnTextSize)
+                .setLogBtnTextView(b.logBtnText, ColorTools.getColor(b.logBtnColor), b.logBtnTextSize)
                 .setLogBtnTextViewTypeface(getTypeface(b.logBtnTextTypefaceName, b.logBtnTextTypefaceBold, b.logBtnTextTypefaceItalic))
                 .setLogBtnDisableIfUnChecked(b.disableBtnIfUnChecked);
         if (b.loadingViewCenterInVertical) {
@@ -132,7 +132,7 @@ public class OneLoginUtils {
         }
         builder.setSlogan(b.sloganVisible)
                 .setSloganText(b.sloganText)
-                .setSloganView(b.sloganColor, b.sloganSize, b.sloganOffsetY, b.sloganOffsetY_B, b.sloganOffsetX)
+                .setSloganView(ColorTools.getColor(b.sloganColor), b.sloganSize, b.sloganOffsetY, b.sloganOffsetY_B, b.sloganOffsetX)
                 .setSloganViewTypeface(getTypeface(b.sloganTypefaceName, b.sloganTypefaceBold, b.sloganTypefaceItalic))
                 .setSloganLayout(b.sloganWidth, b.sloganHeight)
                 .setPrivacyLayout(b.privacyLayoutWidth, b.privacyOffsetY, b.privacyOffsetY_B, b.privacyOffsetX, b.isUseNormalWebActivity)
@@ -141,7 +141,7 @@ public class OneLoginUtils {
                 .setPrivacyTextView(b.privacyTextViewTv1, b.privacyTextViewTv2, b.privacyTextViewTv3, b.privacyTextViewTv4)
                 .setPrivacyClauseText(b.clauseNameOne, b.clauseUrlOne, b.clauseNameTwo, b.clauseUrlTwo, b.clauseNameThree, b.clauseUrlThree)
                 .setPrivacyClauseTextStrings(b.privacyClauseTextStrings)
-                .setPrivacyClauseView(b.baseClauseColor, b.clauseColor, b.privacyClauseTextSize)
+                .setPrivacyClauseView(ColorTools.getColor(b.baseClauseColor), ColorTools.getColor(b.clauseColor), b.privacyClauseTextSize)
                 .setPrivacyClauseViewTypeface(getTypeface(b.privacyClauseBaseTypefaceName, b.privacyClauseBaseTypefaceBold, b.privacyClauseBaseTypefaceItalic), getTypeface(b.privacyClauseTypefaceName, b.privacyClauseTypefaceBold, b.privacyClauseTypefaceItalic))
                 .setPrivacyUnCheckedToastText(b.privacyUnCheckedToastText)
                 .setPrivacyAddFrenchQuotes(b.privacyAddFrenchQuotes)
@@ -263,13 +263,13 @@ public class OneLoginUtils {
                 .setCustomInterface(new CustomInterface() {
                     @Override
                     public void onClick(Context context) {
-                        if(!isClickable) {
+                        if (!isClickable) {
                             return;
                         }
                         JSONObject result = new JSONObject();
                         result.put(JS_RESULT_CODE, JS_RESULT_ID_ON_CUSTOM_VIEW_CLICK);
                         result.put(JS_RESULT_MESSAGE, viewId);
-                        Log.d(TAG, "View:"+viewId+" is clicked, result=" + result);
+                        Log.d(TAG, "View:" + viewId + " is clicked, result=" + result);
                         customViewCallback.invokeAndKeepAlive(result);
                     }
                 }).build();

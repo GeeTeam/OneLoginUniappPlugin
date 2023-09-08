@@ -7,7 +7,7 @@ public class OneLoginBean {
     /**
      * 状态栏颜色
      */
-    public int statusBarColor = 0;
+    public String statusBarColor = "0";
     /**
      * 状态栏字体颜色 true为黑 false为白
      */
@@ -15,7 +15,7 @@ public class OneLoginBean {
     /**
      * 底部导航栏颜色
      */
-    public int navigationBarColor = 0;
+    public String navigationBarColor = "0";
 
     /**
      * 标题栏高度
@@ -33,7 +33,7 @@ public class OneLoginBean {
     /**
      * 标题栏颜色
      */
-    public int navColor = 0xFF3973FF;
+    public String navColor = "0xFF3973FF";
     /**
      * 标题栏标题文字
      */
@@ -41,7 +41,7 @@ public class OneLoginBean {
     /**
      * 授权页标题栏文字颜色
      */
-    public int navTextColor = 0xFFFFFFFF;
+    public String navTextColor = "0xFFFFFFFF";
     /**
      * 授权页标题栏文字字体大小
      */
@@ -74,7 +74,7 @@ public class OneLoginBean {
     /**
      * 隐私条款页标题栏文字颜色
      */
-    public int navWebTextColor = 0xFF000000;
+    public String navWebTextColor = "0xFF000000";
     /**
      * 隐私条款页标题栏文字大小
      */
@@ -206,7 +206,7 @@ public class OneLoginBean {
     /**
      * 设置号码字体颜色
      */
-    public int numberColor = 0xFF3D424C;
+    public String numberColor = "0xFF3D424C";
     /**
      * 号码栏字体大小
      */
@@ -245,7 +245,7 @@ public class OneLoginBean {
     /**
      * slogan文字颜色
      */
-    public int sloganColor = 0xFFA8A8A8;
+    public String sloganColor = "0xFFA8A8A8";
     /**
      * slogan的字体大小
      */
@@ -305,7 +305,7 @@ public class OneLoginBean {
     /**
      * 登录按钮文字颜色
      */
-    public int logBtnColor = 0xFFFFFFFF;
+    public String logBtnColor = "0xFFFFFFFF";
     /**
      * 登录按钮字体大小
      */
@@ -385,7 +385,7 @@ public class OneLoginBean {
     /**
      * 切换账号字体颜色
      */
-    public int switchColor = 0xFF3973FF;
+    public String switchColor = "0xFF3973FF";
     /**
      * 切换账号字体样式
      */
@@ -502,11 +502,11 @@ public class OneLoginBean {
     /**
      * 基础协议颜色
      */
-    public int baseClauseColor = 0xFFA8A8A8;
+    public String baseClauseColor = "0xFFA8A8A8";
     /**
      * 协议颜色
      */
-    public int clauseColor = 0xFF3973FF;
+    public String clauseColor = "0xFF3973FF";
     /**
      * 协议字体大小
      */
@@ -590,11 +590,11 @@ public class OneLoginBean {
      */
     public int languageType = 0;
 
-    public int getStatusBarColor() {
+    public String getStatusBarColor() {
         return statusBarColor;
     }
 
-    public void setStatusBarColor(int statusBarColor) {
+    public void setStatusBarColor(String statusBarColor) {
         this.statusBarColor = statusBarColor;
     }
 
@@ -606,11 +606,11 @@ public class OneLoginBean {
         isLightColor = lightColor;
     }
 
-    public int getNavigationBarColor() {
+    public String getNavigationBarColor() {
         return navigationBarColor;
     }
 
-    public void setNavigationBarColor(int navigationBarColor) {
+    public void setNavigationBarColor(String navigationBarColor) {
         this.navigationBarColor = navigationBarColor;
     }
 
@@ -638,11 +638,11 @@ public class OneLoginBean {
         this.authNavTransparent = authNavTransparent;
     }
 
-    public int getNavColor() {
+    public String getNavColor() {
         return navColor;
     }
 
-    public void setNavColor(int navColor) {
+    public void setNavColor(String navColor) {
         this.navColor = navColor;
     }
 
@@ -654,11 +654,11 @@ public class OneLoginBean {
         this.navText = navText;
     }
 
-    public int getNavTextColor() {
+    public String getNavTextColor() {
         return navTextColor;
     }
 
-    public void setNavTextColor(int navTextColor) {
+    public void setNavTextColor(String navTextColor) {
         this.navTextColor = navTextColor;
     }
 
@@ -718,11 +718,11 @@ public class OneLoginBean {
         this.navWebText = navWebText;
     }
 
-    public int getNavWebTextColor() {
+    public String getNavWebTextColor() {
         return navWebTextColor;
     }
 
-    public void setNavWebTextColor(int navWebTextColor) {
+    public void setNavWebTextColor(String navWebTextColor) {
         this.navWebTextColor = navWebTextColor;
     }
 
@@ -950,11 +950,11 @@ public class OneLoginBean {
         this.logoOffsetY_B = logoOffsetY_B;
     }
 
-    public int getNumberColor() {
+    public String getNumberColor() {
         return numberColor;
     }
 
-    public void setNumberColor(int numberColor) {
+    public void setNumberColor(String numberColor) {
         this.numberColor = numberColor;
     }
 
@@ -1022,11 +1022,11 @@ public class OneLoginBean {
         this.sloganVisible = sloganVisible;
     }
 
-    public int getSloganColor() {
+    public String getSloganColor() {
         return sloganColor;
     }
 
-    public void setSloganColor(int sloganColor) {
+    public void setSloganColor(String sloganColor) {
         this.sloganColor = sloganColor;
     }
 
@@ -1134,15 +1134,15 @@ public class OneLoginBean {
         this.logBtnHeight = logBtnHeight;
     }
 
-    public int getLogBtnColor() {
+    public String getLogBtnColor() {
         return logBtnColor;
     }
 
-    public void setLogBtnColor(int logBtnColor) {
+    public void setLogBtnColor(String logBtnColor) {
         this.logBtnColor = logBtnColor;
     }
 
-    public int getLogBtnTextSize() {
+    public long getLogBtnTextSize() {
         return logBtnTextSize;
     }
 
@@ -1286,11 +1286,11 @@ public class OneLoginBean {
         this.switchSize = switchSize;
     }
 
-    public int getSwitchColor() {
+    public String getSwitchColor() {
         return switchColor;
     }
 
-    public void setSwitchColor(int switchColor) {
+    public void setSwitchColor(String switchColor) {
         this.switchColor = switchColor;
     }
 
@@ -1494,19 +1494,19 @@ public class OneLoginBean {
         this.clauseUrlThree = clauseUrlThree;
     }
 
-    public int getBaseClauseColor() {
+    public String getBaseClauseColor() {
         return baseClauseColor;
     }
 
-    public void setBaseClauseColor(int baseClauseColor) {
+    public void setBaseClauseColor(String baseClauseColor) {
         this.baseClauseColor = baseClauseColor;
     }
 
-    public int getClauseColor() {
+    public String getClauseColor() {
         return clauseColor;
     }
 
-    public void setClauseColor(int clauseColor) {
+    public void setClauseColor(String clauseColor) {
         this.clauseColor = clauseColor;
     }
 
