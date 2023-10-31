@@ -853,8 +853,18 @@ public int privacyCheckBoxMarginRight = 5;
 public boolean privacyAddFrenchQuotes = false;
 /**
  * 隐私协议文字对齐方式
+ * privacyTextGravity="17"：居中对齐。
+ * privacyTextGravity="48"：顶部对齐。
+ * privacyTextGravity="80"：底部对齐。
+ * privacyTextGravity="8388611"：起始端对齐，对于从左到右的布局方向，默认为左侧对齐；对于从右到左的布局方向，默认为右侧对齐。
+ * privacyTextGravity="8388613"：末端对齐，对于从左到右的布局方向，默认为右侧对齐；对于从右到左的布局方向，默认为左侧对齐。
+ * privacyTextGravity="16"：垂直居中对齐。
+ * privacyTextGravity="1"：水平居中对齐。
+ * privacyTextGravity="112"：填充垂直空间。
+ * privacyTextGravity="7"：填充水平空间。
+ * privacyTextGravity="119"：填充垂直和水平空间。
  */
-public int privacyTextGravity = Gravity.TOP | Gravity.START;
+public int privacyTextGravity = 48 | 8388611;
 
 /**
  * 服务条款未勾选时点击一键登录服务条款执行的动画样式，默认无动画
