@@ -122,7 +122,11 @@
     if ([name isKindOfClass:[NSString class]] && name.length > 0) {
         NSArray *array = [name componentsSeparatedByString:@"."];
         if (2 == array.count) {
-            NSString *imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", array[0]] ofType:array[1]];
+            NSMutableString *imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@", array[0]] ofType:array[1]];
+            if(!imagePath) {
+                NSString *docPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+                imagePath = [docPath stringByAppendingFormat:@"/%@",name];
+            }
             NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
             UIImage *image = [UIImage imageWithData:imageData];
             if (nil == image) {
@@ -390,7 +394,7 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         if (viewModelDict[@"navTextPadding"]) {
             double navTextPadding = [viewModelDict[@"navTextPadding"] doubleValue];
             if (navTextPadding && navTextPadding > 0) {
-                viewModel.navTextPadding = navTextPadding;
+                viewModel.navTextMargin = navTextPadding;
             }
         }
         
@@ -701,7 +705,7 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         }
         
         if (viewModelDict[@"popupRectCorners"]) {
-            NSArray *popupRectCorners = viewModelDict[@"popupRectCorners"];
+            NSArray<NSNumber *> *popupRectCorners = [self getRectCornersWithString:viewModelDict[@"popupRectCorners"]];
             if (popupRectCorners.count > 0) {
                 viewModel.popupRectCorners = popupRectCorners;
             }
@@ -766,6 +770,87 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
         // *************** UIUserInterfaceStyle *************** //
         if (viewModelDict[@"userInterfaceStyle"]) {
             viewModel.userInterfaceStyle = [viewModelDict[@"userInterfaceStyle"] isKindOfClass:[NSNumber class]] ? viewModelDict[@"userInterfaceStyle"] : [NSNumber numberWithInteger:[viewModelDict[@"userInterfaceStyle"] integerValue]];
+        }
+        
+        // ***************Auth Dialog *************** //
+        if(viewModelDict[@"willAuthDialogDisplay"]) {
+            viewModel.willAuthDialogDisplay = [viewModelDict[@"willAuthDialogDisplay"] boolValue];
+        }
+        if(viewModelDict[@"canCloseAuthDialogFromTapGesture"]) {
+            viewModel.canCloseAuthDialogFromTapGesture = [viewModelDict[@"canCloseAuthDialogFromTapGesture"] boolValue];
+        }
+        if (viewModelDict[@"authDialogRect"]) {
+            NSArray *rectArray = viewModelDict[@"authDialogRect"];
+            if (rectArray.count >= 8) {
+                OLRect rect = {[rectArray[0] doubleValue], [rectArray[1] doubleValue], [rectArray[2] doubleValue], [rectArray[3] doubleValue], [rectArray[4] doubleValue], [rectArray[5] doubleValue], {[rectArray[6] doubleValue], [rectArray[7] doubleValue]}};
+                viewModel.authDialogRect = rect;
+            }
+        }
+        if(viewModelDict[@"isAuthDialogBottom"]) {
+            viewModel.isAuthDialogBottom = [viewModelDict[@"isAuthDialogBottom"] boolValue];
+        }
+        
+        if (viewModelDict[@"authDialogBgColor"]) {
+            viewModel.authDialogBgColor = [self colorFromHexString:viewModelDict[@"authDialogBgColor"]];
+        }
+        if (viewModelDict[@"authDialogTitleText"]) {
+            viewModel.authDialogTitleText = viewModelDict[@"authDialogTitleText"];
+        }
+        if (viewModelDict[@"authDialogTitleColor"]) {
+            viewModel.authDialogTitleColor = [self colorFromHexString:viewModelDict[@"authDialogTitleColor"]];
+        }
+        if (viewModelDict[@"authDialogTitleFont"]) {
+            viewModel.authDialogTitleFont = [UIFont systemFontOfSize:[viewModelDict[@"authDialogTitleFont"] doubleValue]];
+        }
+        if (viewModelDict[@"authDialogContentFont"]) {
+            viewModel.authDialogContentFont = [UIFont systemFontOfSize:[viewModelDict[@"authDialogContentFont"] doubleValue]];
+        }
+        if (viewModelDict[@"authDialogDisagreeBtnText"]) {
+            viewModel.authDialogDisagreeBtnText = viewModelDict[@"authDialogDisagreeBtnText"];
+        }
+        if (viewModelDict[@"authDialogDisagreeBtnFont"]) {
+            viewModel.authDialogDisagreeBtnFont = [UIFont systemFontOfSize:[viewModelDict[@"authDialogDisagreeBtnFont"] doubleValue]];
+        }
+        if (viewModelDict[@"authDialogDisagreeBtnColor"]) {
+            viewModel.authDialogDisagreeBtnColor = [self colorFromHexString:viewModelDict[@"authDialogDisagreeBtnColor"]];
+        }
+        if (viewModelDict[@"authDialogDisagreeBtnImages"]) {
+            NSArray *imageArray = viewModelDict[@"authDialogDisagreeBtnImages"];
+            if (imageArray.count >= 2) {
+                UIImage *image0 = [self imageWithName:imageArray[0]];
+                UIImage *image1 = [self imageWithName:imageArray[1]];
+                if (image0 && image1 ) {
+                    viewModel.authDialogDisagreeBtnImages = @[image0, image1];
+                }
+            }
+        }
+        if (viewModelDict[@"authDialogAgreeBtnText"]) {
+            viewModel.authDialogAgreeBtnText = viewModelDict[@"authDialogAgreeBtnText"];
+        }
+        if (viewModelDict[@"authDialogAgreeBtnFont"]) {
+            viewModel.authDialogAgreeBtnFont = [UIFont systemFontOfSize:[viewModelDict[@"authDialogAgreeBtnFont"] doubleValue]];
+        }
+        if (viewModelDict[@"authDialogAgreeBtnColor"]) {
+            viewModel.authDialogAgreeBtnColor = [self colorFromHexString:viewModelDict[@"authDialogAgreeBtnColor"]];
+        }
+        if (viewModelDict[@"authDialogAgreeBtnImages"]) {
+            NSArray *imageArray = viewModelDict[@"authDialogAgreeBtnImages"];
+            if (imageArray.count >= 2) {
+                UIImage *image0 = [self imageWithName:imageArray[0]];
+                UIImage *image1 = [self imageWithName:imageArray[1]];
+                if (image0 && image1 ) {
+                    viewModel.authDialogAgreeBtnImages = @[image0, image1];
+                }
+            }
+        }
+        if (viewModelDict[@"authDialogCornerRadius"]) {
+            viewModel.authDialogCornerRadius = [viewModelDict[@"authDialogCornerRadius"] doubleValue];
+        }
+        if (viewModelDict[@"authDialogRectCorners"]) {
+            NSArray *authDialogRectCorners = [self getRectCornersWithString:viewModelDict[@"authDialogRectCorners"]];
+            if (authDialogRectCorners.count > 0) {
+                viewModel.authDialogRectCorners = authDialogRectCorners;
+            }
         }
         
         // *************** block *************** //
@@ -833,7 +918,23 @@ WX_EXPORT_METHOD(@selector(requestTokenWithViewModel:callback:))
             };
         }
         
+        if (viewModelDict[@"tapAuthDialogBackgroundBlock"]) {
+            viewModel.tapAuthDialogBackgroundBlock = ^{
+                [wself invokeJSMethod:viewModelDict[@"tapAuthDialogBackgroundBlock"] params:nil];
+            };
+        }
         
+        if (viewModelDict[@"clickAuthDialogDisagreeBtnBlock"]) {
+            viewModel.clickAuthDialogDisagreeBtnBlock = ^{
+                [wself invokeJSMethod:viewModelDict[@"clickAuthDialogDisagreeBtnBlock"] params:nil];
+            };
+        }
+        if (viewModelDict[@"customDisabledAuthActionBlock"]) {
+            viewModel.customDisabledAuthActionBlock = ^{
+                [wself invokeJSMethod:viewModelDict[@"customDisabledAuthActionBlock"] params:nil];
+                return YES;
+            };
+        }
     }
     
     UIViewController *controller = [self findCurrentShowingViewController];
@@ -880,6 +981,33 @@ WX_EXPORT_METHOD_SYNC(@selector(currentNetworkInfo))
     [infoDict setValue:networkInfo.detailNetworkType forKey:@"detailNetworkType"];
     [infoDict setValue:@(networkInfo.networkType) forKey:@"networkType"];
     return infoDict.copy;
+}
+
+WX_EXPORT_METHOD_SYNC(@selector(startRequestToken))
+
+- (void)startRequestToken {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [OneLoginPro startRequestToken];
+    });
+    
+}
+
+- (NSArray<NSNumber*>*)getRectCornersWithString:(NSArray *)locationValue {
+    
+    NSMutableArray<NSNumber *> *rectCorners = @[].mutableCopy;
+    if ([locationValue containsObject:@(1)]) {
+        [rectCorners addObject:@(UIRectCornerTopLeft)];
+    }
+    if ([locationValue containsObject:@(2)]) {
+        [rectCorners addObject:@(UIRectCornerTopRight)];
+    }
+    if ([locationValue containsObject:@(3)]) {
+        [rectCorners addObject:@(UIRectCornerBottomLeft)];
+    }
+    if ([locationValue containsObject:@(4)]) {
+        [rectCorners addObject:@(UIRectCornerBottomRight)];
+    }
+    return rectCorners;
 }
 
 // MARK: OnePass
