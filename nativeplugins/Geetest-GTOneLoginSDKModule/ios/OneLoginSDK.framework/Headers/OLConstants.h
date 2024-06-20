@@ -12,12 +12,13 @@
 // MARK: OneLogin
 
 static NSString * const OneLoginURLPrefix           = @"https://onepass.geetest.com/";
-static NSString * const OneLoginURLPreGetToken      = @"pre_get_token";
+static NSString * const OneLoginURLPreGetToken      = @"get_config";
 static NSString * const OneLoginURLTokenRecord      = @"token_record";
 static NSString * const OneLoginURLClientReport     = @"clientreport_onelogin";
 
 static NSString * const OLZero                 = @"0";
 static NSString * const OLOne                  = @"1";
+static NSString * const OLHundred              = @"100";
 
 static NSString * const OLErrorDomain          = @"com.geetest.error.onelogin";
 static NSString * const OLErrorCodeKey         = @"OLErrorCode";
@@ -57,6 +58,7 @@ static NSString * const OLResultMsgKey         = @"resultMsg";
 static NSString * const OLAccess_token         = @"access_token";
 static NSString * const OLResultKey            = @"result";
 static NSString * const OLMobileKey            = @"mobile";
+static NSString * const OLCMMobileKey          = @"fakeMobile";
 static NSString * const OLDescKey              = @"desc";
 static NSString * const OLDataCache            = @"dataCache";
 static NSString * const OLSecurityPhone        = @"securityPhone";
@@ -73,11 +75,14 @@ static NSString * const OLGWAuthKey            = @"gwAuth";
 static NSString * const OLAuthcodeKey          = @"authcode";
 
 static NSString * const OLExpireTimeKey        = @"expire_time";
+static NSString * const OLChannelKey           = @"channel";
+static NSString * const OLConfigCycleKey       = @"configcycle";
+static NSString * const OLConfigIDKey          = @"config_id";
 static NSString * const OLPreGetTokenSuccessedTimeKey = @"preGetTokenSuccessedTime";
 
 static NSString * const OLZidKey               = @"com.geetest.zid";
 
-static NSString * const OLSDKVersion           = @"2.8.4";
+static NSString * const OLSDKVersion           = @"2.9.1";
 
 static NSString * const OLFirstRegister        = @"f_r_o";
 
@@ -86,8 +91,8 @@ static NSString * const OLCU                   = @"CU";     // 联通
 static NSString * const OLCT                   = @"CT";     // 电信
 
 static NSString * const OLServerConfig         = @"server_config";
-static NSString * const OLCarrierID            = @"get_token_id";
-static NSString * const OLCarrierKey           = @"get_token_key";
+static NSString * const OLCarrierID            = @"operator_id";
+static NSString * const OLCarrierKey           = @"operator_key";
 static NSString * const OLCMSSCustid           = @"get_token_custid";
 
 static NSString * const OLCMTermTitle          = @"中国移动认证服务条款";
@@ -96,6 +101,8 @@ static NSString * const OLCMSlogan             = @"中国移动提供认证服�
 
 static NSString * const OLCUTermTitle          = @"联通统一认证服务条款";
 static NSString * const OLCUTermLink           = @"https://opencloud.wostore.cn/authz/resource/html/disclaimer.html?fromsdk=true";
+static NSString * const OLCUOnLineTermLink           = @"https://msv6.wosms.cn/html/oauth/protocol2.html";
+
 static NSString * const OLCUSlogan             = @"认证服务由联通统一认证提供";
 
 static NSString * const OLCTTermTitle          = @"天翼账号服务与隐私协议";
@@ -122,7 +129,7 @@ static NSString * const OLPrivatizationKey     = @"Privatization";
 
 static NSString * const OnePassURLPrefix       = @"https://onepass.geetest.com/v2.0/";
 static NSString * const OnePassURLClientReport = @"clientreport";
-static NSString * const OnePassURLPreGetway    = @"pre_gateway";
+static NSString * const OnePassURLPreGetway    = @"get_config";
 static NSString * const OnePassURLPreReport    = @"pre_report";
 
 static NSString * const OPCipherSaveKey        = @"com.geetest.onepass.cipher";

@@ -18,6 +18,7 @@ FOUNDATION_EXPORT NSString * const GOPErrorInvalidPhoneNumberDesc;
 FOUNDATION_EXPORT NSString * const GOPErrorUnsupportedNetworkDesc;
 FOUNDATION_EXPORT NSString * const GOPErrorUnsupportedOperatorDesc;
 FOUNDATION_EXPORT NSString * const GOPErrorInvalidPreGatewayReturnsDesc;
+FOUNDATION_EXPORT NSString * const GOPErrorCellularNotAuthorizedDesc;
 
 FOUNDATION_EXPORT NSString * const GOPErrorRepeatPreGatewayDesc;
 
@@ -27,6 +28,7 @@ typedef NS_ENUM(NSInteger, GOPErrorCode) {
     GOPErrorUnsupportedNetwork          = -20302,
     GOPErrorUnsupportedOperator         = -20303,
     GOPErrorEmptyOperatorURL            = -20304,
+    GOPErrorCellularNotAuthorized       = -20305,
     // Network Error
     GOPErrorGenericNetworkError         = -39900,
     GOPErrorSocketError                 = -39901,

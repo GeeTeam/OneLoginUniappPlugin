@@ -38,6 +38,9 @@ static NSString * const OLErrorDesc_20202 = @"Can't access cellular.";
 static NSString * const OLErrorCode_20203 = @"-20203";  // 未获取到正确的运营商
 static NSString * const OLErrorDesc_20203 = @"Do not get right operator.";
 
+static NSString * const OLErrorCode_20204 = @"-20204";  // 未授权蜂窝网络权限
+static NSString * const OLErrorDesc_20204 = @"Cellular not authorized.";
+
 // ****************** -203.. ******************/
 
 static NSString * const OLErrorCode_20302 = @"-20302";  // 点击授权页面返回按钮退出授权页面
@@ -91,6 +94,7 @@ static NSString * const OLErrorCode_20414 = @"-20414";
 static NSString * const OLErrorCode_20415 = @"-20415";
 static NSString * const OLErrorCode_20416 = @"-20416";
 static NSString * const OLErrorCode_20417 = @"-20417";
+static NSString * const OLErrorCode_20418 = @"-20418";
 
 // ****************** -40... ******************/
 

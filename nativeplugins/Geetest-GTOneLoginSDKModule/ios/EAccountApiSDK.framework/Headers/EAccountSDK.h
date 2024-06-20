@@ -7,7 +7,7 @@
 //
 
 /**
- 定制版SDK v4.0.3 20230222
+ 定制版SDK v4.5.9 20231113
  */
 
 #import <Foundation/Foundation.h>
@@ -53,7 +53,7 @@ typedef   void (^failureHandler) (NSError * _Nonnull error);
 
 /**
 @description   获取当前流量卡运营商信息
-@return NSString    "CT"    中国电信 / "CM"     中国移动 / "CU"     中国联联通 / "UN"    未知
+@return NSString    "CT"    中国电信 / "CM"     中国移动 / "CU"     中国联通 / "UN"    未知
 */
 + (NSString *)getOperatorType;
 
